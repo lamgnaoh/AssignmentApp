@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentApp", "AssignmentApp\AssignmentApp.csproj", "{F64B67B2-D0DB-419D-887D-1F37C8229A30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentApp.WebApp", "AssignmentApp.WebApp\AssignmentApp.WebApp.csproj", "{F64B67B2-D0DB-419D-887D-1F37C8229A30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentApp.Application", "AssignmentApp.Application\AssignmentApp.Application.csproj", "{5DA5483D-05D5-48B7-9EAA-9F70FAA41E69}"
 EndProject
