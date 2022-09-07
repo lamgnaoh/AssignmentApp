@@ -14,7 +14,7 @@ public class UserConfiguration:IEntityTypeConfiguration<User>
         builder.Property(x => x.Password).HasMaxLength(10).IsRequired(true);
         builder.Property(x => x.PhoneNumber).HasMaxLength(15).IsRequired(true).HasColumnType("char");
         builder.Property(x => x.Email).HasMaxLength(50).IsRequired(true).HasColumnType("varchar");
-        builder.Property(x => x.MSSV).HasMaxLength(10).HasColumnType("varchar");
+        builder.Property(x => x.MSSV).HasMaxLength(10).HasColumnType("varchar").IsRequired(false);
         builder.Property(x => x.FullName).HasMaxLength(50).IsRequired(true).HasColumnType("varchar");
     }
 }

@@ -1,5 +1,7 @@
 ﻿using AssignmentApp.Data.Configurations;
 using AssignmentApp.Data.Entities;
+using AssignmentApp.Data.Enums;
+using AssignmentApp.Data.Extension;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -30,7 +32,10 @@ public class AssignmentAppDbContext: DbContext
         modelBuilder.ApplyConfiguration(new UserClassConfiguration());
         modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
-        base.OnModelCreating(modelBuilder);
+        
+        //Data seeding 
+        modelBuilder.Seed();
+        // base.OnModelCreating(modelBuilder);
     }
 
     public DbSet<Assignment> Assignments { get; set; }

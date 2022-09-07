@@ -10,9 +10,9 @@ public class StudentAssignmentConfiguration:IEntityTypeConfiguration<StudentAssi
     {
         builder.ToTable("StudentAssignments");
         builder.HasKey(x => new { x.AssignmentId, x.StudentId });
-        builder.Property(x => x.Grade).HasDefaultValue(0.0);
-        builder.Property(x => x.Feedback).IsUnicode(true).HasMaxLength(500);
-        
+        builder.Property(x => x.Grade).IsRequired(false);
+        builder.Property(x => x.Feedback).IsUnicode(true).HasMaxLength(500).IsRequired(false);
+        builder.Property(x => x.SubmittedAt).IsRequired(false);
         //quan he 1 - nhieu voi assignment
         builder.HasOne(x => x.Assignment).WithMany(x => x.StudentAssignments).HasForeignKey(x => x.AssignmentId);
         
