@@ -4,6 +4,8 @@ namespace AssignmentApp.Data.Entities;
 
 public class UserClass
 {
-    public Guid UserId { get; set; }
-    public Guid ClassId { get; set; }
+    public int UserId { get; set; }
+    public User User { get; set; }
+    public int ClassId { get; set; }
+    public Class Class { get; set; }
 }

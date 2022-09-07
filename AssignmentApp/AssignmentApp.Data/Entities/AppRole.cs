@@ -7,4 +7,6 @@ public class AppRole
     public int RoleId { get; set; }
     public Role role { get; set; }
     
+    //navigation properties
+    public ICollection<UserRole> UserRoles { get; set; }
 }

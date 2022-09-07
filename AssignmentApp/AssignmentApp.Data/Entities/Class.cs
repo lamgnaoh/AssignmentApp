@@ -2,6 +2,10 @@
 
 public class Class
 {
-    public Guid Id { get; set; }
+    public int ClassId { get; set; }
     public string Name { get; set; }
+    
+  // navigation property
+    public ICollection<Assignment> Assignments { get; set; }
+    public ICollection<UserClass> UserClasses { get; set; }
 }

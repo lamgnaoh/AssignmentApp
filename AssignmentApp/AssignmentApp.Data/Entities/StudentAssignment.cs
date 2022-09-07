@@ -2,9 +2,15 @@
 
 public class StudentAssignment
 {
-    public Guid AssignmentId { get; set; }
-    public Guid StudentId { get; set; }
+    public int AssignmentId { get; set; }
+    public int StudentId { get; set; }
     public bool Submitted { set; get; }
     public double Grade { get; set; }
+    public DateTime SubmittedAt { get; set; }
     public string Feedback { get; set; }
+    
+    // navigation property
+    public Assignment Assignment { get; set; }
+    public User User { get; set; }
+    // public User Student { get; set; }
 }
