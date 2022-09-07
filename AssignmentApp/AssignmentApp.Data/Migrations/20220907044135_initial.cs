@@ -41,12 +41,12 @@ namespace AssignmentApp.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Username = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     PhoneNumber = table.Column<string>(type: "char(15)", maxLength: 15, nullable: false),
                     Email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    MSSV = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    MSSV = table.Column<string>(type: "varchar(10)", maxLength: 10),
+                    FullName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +54,6 @@ namespace AssignmentApp.Data.Migrations
                 });
             migrationBuilder.Sql(
                 "Alter table [Users] add constraint CK_Username check((Username = Fullname + ' ' + MSSV and MSSV is not null ) Or (Username = Fullname and MSSV is null))");
-
             migrationBuilder.CreateTable(
                 name: "Assignments",
                 columns: table => new
@@ -134,9 +133,9 @@ namespace AssignmentApp.Data.Migrations
                     AssignmentId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     Submitted = table.Column<bool>(type: "bit", nullable: false),
-                    Grade = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
-                    SubmittedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Feedback = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                    Grade = table.Column<double>(type: "float", defaultValue: 0.0),
+                    SubmittedAt = table.Column<DateTime>(type: "datetime2"),
+                    Feedback = table.Column<string>(type: "nvarchar(500)", maxLength: 500)
                 },
                 constraints: table =>
                 {
@@ -153,6 +152,7 @@ namespace AssignmentApp.Data.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    
                 });
 
             migrationBuilder.CreateIndex(

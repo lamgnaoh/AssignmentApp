@@ -10,11 +10,11 @@ public class UserConfiguration:IEntityTypeConfiguration<User>
     {
         builder.ToTable("Users");
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Username).HasMaxLength(60).HasColumnType("nvarchar").IsRequired(true);
+        builder.Property(x => x.Username).HasMaxLength(60).HasColumnType("varchar").IsRequired(true);
         builder.Property(x => x.Password).HasMaxLength(10).IsRequired(true);
         builder.Property(x => x.PhoneNumber).HasMaxLength(15).IsRequired(true).HasColumnType("char");
         builder.Property(x => x.Email).HasMaxLength(50).IsRequired(true).HasColumnType("varchar");
-        builder.Property(x => x.MSSV).HasMaxLength(10).HasColumnType("nvarchar");
-        builder.Property(x => x.FullName).HasMaxLength(50).IsRequired(true).HasColumnType("nvarchar");
+        builder.Property(x => x.MSSV).HasMaxLength(10).HasColumnType("varchar");
+        builder.Property(x => x.FullName).HasMaxLength(50).IsRequired(true).HasColumnType("varchar");
     }
 }
