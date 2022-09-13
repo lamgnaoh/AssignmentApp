@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "z8AerwmbB7fwubVrqzyvBXqZgoLz2/6Z+Z+U7LOEuJyUevgVlek0JEDxZgTMIKEOcrhgr/QDRtj9EaNO0MSoTw==",
+  "dgSpecHash": "w3fh36cHehlmLiCfTslbwstWY1cPaCQ1qFbvlPjWUAntrcazrYno3urqXfFkpKemkNsQa7Thz7k3Y8WSJXSvQg==",
   "success": true,
   "projectFilePath": "D:\\Workspace\\2021-3\\Đồ án thiết kế ktmt\\AssignmentApp\\AssignmentApp\\AssignmentApp.Data\\AssignmentApp.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.8\\microsoft.aspnetcore.cryptography.internal.6.0.8.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.8\\microsoft.aspnetcore.cryptography.keyderivation.6.0.8.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\6.0.8\\microsoft.aspnetcore.identity.entityframeworkcore.6.0.8.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
@@ -26,6 +29,8 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\7.0.0-preview.7.22375.6\\microsoft.extensions.fileproviders.abstractions.7.0.0-preview.7.22375.6.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\7.0.0-preview.7.22375.6\\microsoft.extensions.fileproviders.physical.7.0.0-preview.7.22375.6.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\7.0.0-preview.7.22375.6\\microsoft.extensions.filesystemglobbing.7.0.0-preview.7.22375.6.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.identity.core\\6.0.8\\microsoft.extensions.identity.core.6.0.8.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.identity.stores\\6.0.8\\microsoft.extensions.identity.stores.6.0.8.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.logging\\6.0.0\\microsoft.extensions.logging.6.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.0\\microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
