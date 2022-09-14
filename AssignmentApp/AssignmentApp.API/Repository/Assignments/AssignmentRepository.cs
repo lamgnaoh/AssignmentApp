@@ -2,6 +2,8 @@
 using AssignmentApp.API.Utilities.Exception;
 using AssignmentApp.Data.EF;
 using AssignmentApp.Data.Entities;
+using AssignmentApp.Data.Enums;
+using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -25,7 +27,27 @@ public class AssignmentRepository : IAssignmentRepository
             Title = createAssignment.Title,
             Content = createAssignment.Content,
         };
+        var query = from uc in _context.UserClasses
+            where uc.ClassId == createAssignment.ClassId
+            join u in _context.Users on uc.UserId equals u.Id
+            where u.RoleId == 3
+            select u.Id;
+       
         await _context.Assignments.AddAsync(assignment);
+        _context.SaveChanges();
+        foreach (var studentId in query)
+        {
+            var studentAssignment = new StudentAssignment()
+            {
+                AssignmentId = assignment.AssignmentId,
+                StudentId = studentId,
+                Submitted = false,
+                Grade = null,
+                Feedback = null,
+                SubmittedAt = null
+            };
+            await _context.StudentAssignments.AddAsync(studentAssignment);
+        }
         await _context.SaveChangesAsync();
         return assignment;
     }
@@ -51,18 +73,27 @@ public class AssignmentRepository : IAssignmentRepository
     public async Task<Assignment> DeleteAssignment(int assignmentId)
     {
         var assignment = await _context.Assignments.FindAsync(assignmentId);
+        var studentAssignment = await _context.StudentAssignments.FirstOrDefaultAsync(x=> x.AssignmentId == assignmentId);
         if (assignment == null)
         {
             throw new CustomException($"This assignment id is not found : {assignmentId}");
         }
+        
+        if (studentAssignment == null)
+        {
+            throw new CustomException($"This student  assignment id is not found : {assignmentId}");
+        }
+        
         _context.Assignments.Remove(assignment);
+        _context.StudentAssignments.Remove(studentAssignment);
         await _context.SaveChangesAsync();
         return assignment;
     }
 
-    public Task<List<AssignmentDto>>  GetAllByClass(int classId)
+    public async Task<List<Assignment>>  GetAllByClass(int classId)
     {
-        throw new NotImplementedException();
+        var assigment = await _context.Assignments.Where(x => x.ClassId == classId).ToListAsync();
+        return assigment;
     }
     
     public async Task<List<Assignment>>  GetAll()

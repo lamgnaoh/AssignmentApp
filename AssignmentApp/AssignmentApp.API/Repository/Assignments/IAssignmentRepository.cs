@@ -8,7 +8,7 @@ public interface IAssignmentRepository
     Task<Assignment> CreateAssignment(Assignment createAssignment);
     Task<Assignment> UpdateAssignment(Assignment updateAssignment , int id);
     Task<Assignment> DeleteAssignment(int assignmentId);
-    Task<List<AssignmentDto>> GetAllByClass(int classId);
+    Task<List<Assignment>> GetAllByClass(int classId);
     Task<Assignment> GetAssignment(int id);
     Task<List<Assignment>> GetAll();
 }

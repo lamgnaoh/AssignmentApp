@@ -55,6 +55,24 @@ public class AssignmentController : Controller
         return Ok(assignmentDto);
     }
 
+    [HttpGet]
+    [Route("Class/{classId:int}")]
+    public async Task<IActionResult> getAllAssigmentByClassId(int classId)
+    {
+        var assignments = await _assignmentRepository.GetAllByClass(classId);
+        if (assignments == null)
+        {
+            return NotFound();
+        }
+
+        var assignmentDtos = new List<AssignmentDto>();
+        foreach (var assignment in assignments)
+        {
+            var assignmentDto = _mapper.Map<AssignmentDto>(assignment);
+            assignmentDtos.Add(assignmentDto);
+        }
+        return Ok(assignmentDtos);
+    }
     [HttpPost]
     public async Task<IActionResult> CreateAssignment(AssignmentCreateDto assignmentCreateDto)
     {
