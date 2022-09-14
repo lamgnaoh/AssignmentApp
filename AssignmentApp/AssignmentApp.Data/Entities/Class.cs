@@ -3,6 +3,8 @@
 public class Class
 {
     public int ClassId { get; set; }
+
+    public DateTime CreateAt { get; set; }
     public string Name { get; set; }
     
   // navigation property

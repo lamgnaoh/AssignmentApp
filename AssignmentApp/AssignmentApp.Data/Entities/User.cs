@@ -10,10 +10,13 @@ public class User
     public string MSSV { get; set; }
     public string FullName { get; set; }
 
+    public int RoleId { get; set; }
+
 
   // navigation property
     public ICollection<UserClass> UserClasses { get; set; }
-    public ICollection<UserRole> UserRoles { get; set; }
     public ICollection<StudentAssignment> StudentAssignments { get; set; }
+    
+    public AppRole AppRole { get; set; }
 
 }

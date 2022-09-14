@@ -30,7 +30,6 @@ public class AssignmentAppDbContext: DbContext
         modelBuilder.ApplyConfiguration(new ClassConfiguration());
         modelBuilder.ApplyConfiguration(new StudentAssignmentConfiguration());
         modelBuilder.ApplyConfiguration(new UserClassConfiguration());
-        modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         
         //Data seeding 

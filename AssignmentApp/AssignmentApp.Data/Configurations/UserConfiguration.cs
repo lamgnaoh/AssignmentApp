@@ -16,5 +16,6 @@ public class UserConfiguration:IEntityTypeConfiguration<User>
         builder.Property(x => x.Email).HasMaxLength(50).IsRequired(true).HasColumnType("varchar");
         builder.Property(x => x.MSSV).HasMaxLength(10).HasColumnType("varchar").IsRequired(false);
         builder.Property(x => x.FullName).HasMaxLength(50).IsRequired(true).HasColumnType("varchar");
+        builder.HasOne(x => x.AppRole).WithMany(x => x.Users).HasForeignKey(x => x.RoleId);
     }
 }

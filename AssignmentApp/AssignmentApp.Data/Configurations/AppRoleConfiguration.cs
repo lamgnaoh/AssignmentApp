@@ -11,5 +11,6 @@ public class AppRoleConfiguration: IEntityTypeConfiguration<AppRole>
         builder.ToTable("AppRoles");
         builder.HasKey(x => x.RoleId);
         builder.Property(x => x.role).IsRequired(true);
+        builder.HasMany(x => x.Users).WithOne(x => x.AppRole).HasForeignKey(x=> x.RoleId);
     }
 }

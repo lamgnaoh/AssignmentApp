@@ -8,5 +8,6 @@ public class AppRole
     public Role role { get; set; }
     
     //navigation properties
-    public ICollection<UserRole> UserRoles { get; set; }
+    
+    public ICollection<User> Users { get; set; }
 }

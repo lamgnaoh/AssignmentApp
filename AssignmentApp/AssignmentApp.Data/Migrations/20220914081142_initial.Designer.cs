@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssignmentApp.Data.Migrations
 {
     [DbContext(typeof(AssignmentAppDbContext))]
-    [Migration("20220907165309_initial")]
+    [Migration("20220914081142_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,7 +98,7 @@ namespace AssignmentApp.Data.Migrations
                             AssignmentId = 1,
                             ClassId = 1,
                             Content = "Nộp báo cáo tuần 1 ",
-                            CreateAt = new DateTime(2022, 9, 7, 23, 53, 9, 126, DateTimeKind.Local).AddTicks(6960),
+                            CreateAt = new DateTime(2022, 9, 6, 23, 30, 0, 0, DateTimeKind.Unspecified),
                             DueTo = new DateTime(2022, 9, 8, 23, 30, 0, 0, DateTimeKind.Unspecified),
                             Title = "Báo cáo tuần 1"
                         },
@@ -107,7 +107,7 @@ namespace AssignmentApp.Data.Migrations
                             AssignmentId = 2,
                             ClassId = 2,
                             Content = "Lập trình .NET WEB API",
-                            CreateAt = new DateTime(2022, 9, 7, 23, 53, 9, 126, DateTimeKind.Local).AddTicks(7043),
+                            CreateAt = new DateTime(2022, 9, 8, 23, 30, 0, 0, DateTimeKind.Unspecified),
                             DueTo = new DateTime(2022, 9, 9, 23, 30, 0, 0, DateTimeKind.Unspecified),
                             Title = ".NET WEB API"
                         });
@@ -120,6 +120,9 @@ namespace AssignmentApp.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClassId"), 1L, 1);
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -135,11 +138,13 @@ namespace AssignmentApp.Data.Migrations
                         new
                         {
                             ClassId = 1,
+                            CreateAt = new DateTime(2022, 6, 8, 23, 30, 0, 0, DateTimeKind.Unspecified),
                             Name = "project 20213"
                         },
                         new
                         {
                             ClassId = 2,
+                            CreateAt = new DateTime(2022, 5, 11, 15, 30, 0, 0, DateTimeKind.Unspecified),
                             Name = "Lap trinh .NET Core"
                         });
                 });
@@ -229,12 +234,17 @@ namespace AssignmentApp.Data.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("char(15)");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users", (string)null);
 
@@ -247,6 +257,7 @@ namespace AssignmentApp.Data.Migrations
                             MSSV = "20183780",
                             Password = "12345678",
                             PhoneNumber = "0123123xxx",
+                            RoleId = 3,
                             Username = "Luong Hoang Lam 20183780"
                         },
                         new
@@ -257,6 +268,7 @@ namespace AssignmentApp.Data.Migrations
                             MSSV = "20183779",
                             Password = "12345678",
                             PhoneNumber = "0456456xxx",
+                            RoleId = 3,
                             Username = "Dang Bao Lam 20183779"
                         },
                         new
@@ -266,6 +278,7 @@ namespace AssignmentApp.Data.Migrations
                             FullName = "Nguyen Dinh Thuan",
                             Password = "12345678",
                             PhoneNumber = "0789789xxx",
+                            RoleId = 2,
                             Username = "Nguyen Dinh Thuan"
                         },
                         new
@@ -275,6 +288,7 @@ namespace AssignmentApp.Data.Migrations
                             FullName = "admin",
                             Password = "admin",
                             PhoneNumber = "0456789xxx",
+                            RoleId = 1,
                             Username = "admin"
                         });
                 });
@@ -321,48 +335,6 @@ namespace AssignmentApp.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AssignmentApp.Data.Entities.UserRole", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RoleId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = 3,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            RoleId = 3,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            RoleId = 1,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            RoleId = 1,
-                            UserId = 4
-                        });
-                });
-
             modelBuilder.Entity("AssignmentApp.Data.Entities.Assignment", b =>
                 {
                     b.HasOne("AssignmentApp.Data.Entities.Class", "Class")
@@ -393,6 +365,17 @@ namespace AssignmentApp.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("AssignmentApp.Data.Entities.User", b =>
+                {
+                    b.HasOne("AssignmentApp.Data.Entities.AppRole", "AppRole")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppRole");
+                });
+
             modelBuilder.Entity("AssignmentApp.Data.Entities.UserClass", b =>
                 {
                     b.HasOne("AssignmentApp.Data.Entities.Class", "Class")
@@ -412,28 +395,9 @@ namespace AssignmentApp.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AssignmentApp.Data.Entities.UserRole", b =>
-                {
-                    b.HasOne("AssignmentApp.Data.Entities.AppRole", "AppRole")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AssignmentApp.Data.Entities.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppRole");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("AssignmentApp.Data.Entities.AppRole", b =>
                 {
-                    b.Navigation("UserRoles");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("AssignmentApp.Data.Entities.Assignment", b =>
@@ -453,8 +417,6 @@ namespace AssignmentApp.Data.Migrations
                     b.Navigation("StudentAssignments");
 
                     b.Navigation("UserClasses");
-
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }
