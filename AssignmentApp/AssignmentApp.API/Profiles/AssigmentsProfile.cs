@@ -1,4 +1,4 @@
-﻿using AssignmentApp.API.Repository.Assignments.DTOs;
+﻿using AssignmentApp.API.DTOs;
 using AssignmentApp.Data.Entities;
 using AutoMapper;
 

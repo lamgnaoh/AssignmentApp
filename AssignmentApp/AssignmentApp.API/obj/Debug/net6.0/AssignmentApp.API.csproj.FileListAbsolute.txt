@@ -77,3 +77,5 @@ D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\Assi
 D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\obj\Debug\net6.0\ref\AssignmentApp.API.dll
 D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\AutoMapper.dll
 D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

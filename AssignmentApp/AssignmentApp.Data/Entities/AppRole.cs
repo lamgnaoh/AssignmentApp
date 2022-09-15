@@ -1,8 +1,9 @@
 ﻿using AssignmentApp.Data.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace AssignmentApp.Data.Entities;
 
-public class AppRole
+public class AppRole 
 {
     public int RoleId { get; set; }
     public Role role { get; set; }

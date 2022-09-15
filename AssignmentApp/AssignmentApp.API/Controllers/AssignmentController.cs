@@ -1,13 +1,15 @@
-﻿using AssignmentApp.API.Repository.Assignments;
-using AssignmentApp.API.Repository.Assignments.DTOs;
+﻿using AssignmentApp.API.DTOs;
+using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.Data.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssignmentApp.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class AssignmentController : Controller
 {
     private readonly IAssignmentRepository _assignmentRepository;

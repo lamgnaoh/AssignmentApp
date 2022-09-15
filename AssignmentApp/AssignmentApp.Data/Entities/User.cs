@@ -1,4 +1,6 @@
-﻿namespace AssignmentApp.Data.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace AssignmentApp.Data.Entities;
 
 public class User
 {

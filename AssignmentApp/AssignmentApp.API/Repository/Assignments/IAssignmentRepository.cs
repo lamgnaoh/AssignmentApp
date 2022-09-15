@@ -1,5 +1,4 @@
-﻿using AssignmentApp.API.Repository.Assignments.DTOs;
-using AssignmentApp.Data.Entities;
+﻿using AssignmentApp.Data.Entities;
 
 namespace AssignmentApp.API.Repository.Assignments;
 
