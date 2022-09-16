@@ -57,5 +57,9 @@ public class UserRepository : IUserRepository
         return true;
     }
 
-    
+    public async Task<List<User>> GetAll()
+    {
+        var users = await _assignmentAppDbContext.Users.ToListAsync();
+        return users;
+    }
 }

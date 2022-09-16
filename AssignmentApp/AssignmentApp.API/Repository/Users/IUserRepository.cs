@@ -7,5 +7,6 @@ public interface IUserRepository
 {
     Task<string> Authenticate(LoginRequest request);
     Task<bool> Register(RegisterRequest request);
-    
+
+    Task<List<User>> GetAll();
 }
