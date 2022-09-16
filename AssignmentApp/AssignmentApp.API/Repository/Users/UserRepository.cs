@@ -4,6 +4,7 @@ using System.Text;
 using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Token;
 using AssignmentApp.API.Utilities.Exception;
+using AssignmentApp.API.Utilities.Paging;
 using AssignmentApp.Data.EF;
 using AssignmentApp.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -57,9 +58,11 @@ public class UserRepository : IUserRepository
         return true;
     }
 
-    public async Task<List<User>> GetAll()
+    public async Task<List<User>> GetAll(UserPagingParameter pagingParameter)
     {
-        var users = await _assignmentAppDbContext.Users.ToListAsync();
+        var users = await _assignmentAppDbContext.Users.OrderBy(u => u.Username)
+            .Skip((pagingParameter.PageNumber - 1) * pagingParameter.PageSize).Take(pagingParameter.PageSize)
+            .ToListAsync();
         return users;
     }
 }

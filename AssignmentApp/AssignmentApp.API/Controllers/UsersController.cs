@@ -1,5 +1,6 @@
 ﻿using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Users;
+using AssignmentApp.API.Utilities.Paging;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,10 +20,12 @@ public class UsersController:Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery]UserPagingParameter pagingParameter)
     {
-        var users = await _userRepository.GetAll();
+        var users = await _userRepository.GetAll(pagingParameter);
         var usersDto = _mapper.Map<List<UserDto>>(users);
         return Ok(usersDto);
     }
+    
+    
 }

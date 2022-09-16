@@ -29,6 +29,7 @@ public class ClassController : Controller
 
     [HttpGet]
     [Route("{id:int}")]
+    [ActionName("GetClassById")]
     public async Task<IActionResult> GetClassById(int id)
     {
         var existingClass = await _classRepository.GetClass(id);
@@ -61,7 +62,7 @@ public class ClassController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateNewClass(ClassCreateRequestDTO request)
+    public async Task<IActionResult> CreateClass(ClassCreateRequestDTO request)
     {
         var newClass = new Class()
         {
@@ -70,7 +71,7 @@ public class ClassController : Controller
         };
         var response = await _classRepository.CreateClass(newClass);
         var classDto = _mapper.Map<List<ClassDto>>(response);
-        return Ok(classDto);
+        return CreatedAtAction(nameof(GetClassById), new { id = response.ClassId }, classDto);
     }
     
     [HttpDelete]
