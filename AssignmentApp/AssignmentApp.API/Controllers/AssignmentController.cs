@@ -9,7 +9,7 @@ namespace AssignmentApp.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize]
+// [Authorize]
 public class AssignmentController : Controller
 {
     private readonly IAssignmentRepository _assignmentRepository;

@@ -2,5 +2,5 @@
 
 public class UserPagingParameter: QueryStringParameters
 {
-    
+
 }

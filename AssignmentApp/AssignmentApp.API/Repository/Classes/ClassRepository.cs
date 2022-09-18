@@ -53,10 +53,10 @@ public class ClassRepository : IClassRepository
             return null;
         }
 
-        var userClasses = _context.UserClasses.Where(x => x.ClassId == classId);
-        var assignments = _context.Assignments.Where(x => x.ClassId == classId);
-        _context.Remove(userClasses);
-        _context.Remove(assignments);
+        var userClasses =await  _context.UserClasses.Where(x => x.ClassId == classId).ToListAsync();
+        var assignments = await _context.Assignments.Where(x => x.ClassId == classId).ToListAsync();
+        _context.UserClasses.RemoveRange(userClasses);
+        _context.Assignments.RemoveRange(assignments);
         await _context.SaveChangesAsync();
         return existingClass;
     }
@@ -97,5 +97,47 @@ public class ClassRepository : IClassRepository
             select c;
         var classTeaching  = await queryable.ToListAsync();
         return classTeaching;
+    }
+
+    public async Task<UserClass> AddUserToClass(int classId, int userId)
+    {
+        var userInClass = await _context.UserClasses.FindAsync(userId,classId);
+        if (userInClass != null)
+        {
+            throw new CustomException($"User with id {userId} already in the class with id {classId}");
+            return null;
+        }
+        var userClass = new UserClass() { ClassId = classId, UserId = userId };
+        await _context.UserClasses.AddAsync(userClass);
+        await _context.SaveChangesAsync();
+        return userClass;
+    }
+
+    public async Task<UserClass> RemoveUserToClass(int classId, int userId)
+    {
+        var userInClass = await _context.UserClasses.FindAsync(userId,classId);
+        if (userInClass == null)
+        {
+            throw new CustomException($"User with id {userId} not in the class with id {classId}");
+            return null;
+        }
+        _context.UserClasses.Remove(userInClass);
+        await _context.SaveChangesAsync();
+        return userInClass;
+    }
+
+    public async Task<List<User>> GetAllUserInClass(int classId)
+    {
+        var query = from uc in _context.UserClasses
+            where uc.ClassId == classId
+            select uc.UserId;
+        var listUserInClass = new List<User>();
+        foreach (var userId in query)
+        {
+            var userInClass = await _context.Users.FindAsync(userId);
+            listUserInClass.Add(userInClass);
+        }
+
+        return listUserInClass;
     }
 }

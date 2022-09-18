@@ -10,4 +10,14 @@ public interface IUserRepository
     Task<bool> Register(RegisterRequest request);
 
     Task<List<User>> GetAll(UserPagingParameter pagingParameter);
+    Task<User> CreateUser(User createUser);
+
+    Task<User> GetUserById(int id);
+
+    Task<User> UpdateUser(User user , int userId);
+
+    Task<User> DeleteUser(int id);
+
+    Task<List<User>> GetUserByUserName(string keyword);
+    
 }

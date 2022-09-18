@@ -60,9 +60,7 @@ namespace AssignmentApp.Data.Migrations
                         principalColumn: "RoleId",
                         onDelete: ReferentialAction.Cascade);
                 });
-            migrationBuilder.Sql(
-                "Alter table [Users] add constraint CK_Username check((Username = Fullname + ' ' + MSSV and MSSV is not null ) Or (Username = Fullname and MSSV is null))");
-
+           
             migrationBuilder.CreateTable(
                 name: "Assignments",
                 columns: table => new

@@ -44,7 +44,7 @@ public class ClassController : Controller
     }
 
     [HttpGet]
-    [Route("/student/{studentId:int}")]
+    [Route("student/{studentId:int}")]
     public async Task<IActionResult> GetAllByStudent(int studentId)
     {
         var classAttends = await _classRepository.GetALlByStudent(studentId);
@@ -53,7 +53,7 @@ public class ClassController : Controller
     }
     
     [HttpGet]
-    [Route("/teacher/{teacherId:int}")]
+    [Route("teacher/{teacherId:int}")]
     public async Task<IActionResult> GetAllByTeacher(int teacherId)
     {
         var classTeaching = await _classRepository.GetAllByTeacher(teacherId);
@@ -116,5 +116,40 @@ public class ClassController : Controller
 
         var updateClassDto = _mapper.Map<ClassDto>(updateClass);
         return Ok(updateClassDto);
+    }
+
+    [HttpPost]
+    [Route("{classId:int}/users/{userId:int}")]
+    public async Task<IActionResult> AddUserToClass( int classId, int userId)
+    {
+        var userClass = await _classRepository.AddUserToClass(classId,userId);
+        if (userClass == null)
+        {
+            return BadRequest($"Can not add user with id {userId} to class with id {classId}");
+        }
+
+        var userClassDto = _mapper.Map<UserClassDto>(userClass);
+        return Ok(userClassDto);
+    }
+    
+    [HttpDelete]
+    [Route("{classId:int}/users/{userId:int}")]
+    public async Task<IActionResult> RemoveUserToClass( int classId, int userId)
+    {
+        var userClass = await _classRepository.RemoveUserToClass(classId,userId);
+        if (userClass == null)
+        {
+            return BadRequest($"Can not remove user with id {userId} to class with id {classId}");
+        }
+        return Ok();
+    }
+
+    [HttpGet]
+    [Route("{classId:int}/users")]
+    public async Task<IActionResult> GetAllUserInClass(int classId)
+    {
+        var users = await _classRepository.GetAllUserInClass(classId);
+        var usersDto = _mapper.Map<List<UserDto>>(users);
+        return Ok(usersDto);
     }
 }
