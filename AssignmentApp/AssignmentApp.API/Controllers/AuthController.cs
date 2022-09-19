@@ -28,7 +28,7 @@ public class AuthController : Controller
             return BadRequest("Email or password is not correct");
         }
 
-        return Ok(new { token = resultToken });
+        return Ok(resultToken);
     }
     
     [HttpPost("register")]

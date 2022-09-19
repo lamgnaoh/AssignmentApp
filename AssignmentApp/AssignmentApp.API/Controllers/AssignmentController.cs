@@ -1,4 +1,5 @@
-﻿using AssignmentApp.API.DTOs;
+﻿using System.Security.Claims;
+using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.Data.Entities;
 using AutoMapper;
@@ -150,6 +151,20 @@ public class AssignmentController : Controller
         var assignmentDto = _mapper.Map<AssignmentDto>(response);
         //return ok response
         return Ok(assignmentDto);
+    }
+    [HttpPost]
+    [Route("{AssignmentId:int}/submit")]
+    [Authorize(Roles = "3")]
+    public async Task<IActionResult> SubmitAssignment(int AssignmentId)
+    {
+        var idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        var id = Int32.Parse(idClaim);
+        var studentAssignment = await _assignmentRepository.SubmitAssignment(AssignmentId , id);
+        if (studentAssignment == null)
+        {
+            return BadRequest($"No assignment with id :{AssignmentId} was found");
+        }
+        return Ok(studentAssignment);
     }
 
 }

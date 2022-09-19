@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.API.Repository.Classes;
+using AssignmentApp.API.Repository.StudentAssignment;
 using AssignmentApp.API.Repository.Token;
 using AssignmentApp.API.Repository.Users;
 using AssignmentApp.Data.EF;
@@ -20,7 +21,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddControllers()
-    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+    .AddJsonOptions(x =>
+    {
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -54,6 +58,7 @@ builder.Services.AddDbContext<AssignmentAppDbContext>(x => x.UseSqlServer(connec
 builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<IStudentAssignmentRepository, StudentAssignmentRepository>();
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 // builder.Services.AddTransient<UserManager<User>, UserManager<User>>();
 // builder.Services.AddTransient<SignInManager<User>, SignInManager<User>>();

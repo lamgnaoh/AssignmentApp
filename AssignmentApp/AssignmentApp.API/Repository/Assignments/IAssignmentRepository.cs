@@ -10,5 +10,6 @@ public interface IAssignmentRepository
     Task<List<Assignment>> GetAllByClass(int classId);
     Task<Assignment> GetAssignment(int id);
     Task<List<Assignment>> GetAll();
+    Task<Data.Entities.StudentAssignment> SubmitAssignment(int AssignmentId , int studentId);
 }
 

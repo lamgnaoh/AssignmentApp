@@ -36,7 +36,7 @@ public class AssignmentRepository : IAssignmentRepository
         _context.SaveChanges();
         foreach (var studentId in query)
         {
-            var studentAssignment = new StudentAssignment()
+            var studentAssignment = new Data.Entities.StudentAssignment()
             {
                 AssignmentId = assignment.AssignmentId,
                 StudentId = studentId,
@@ -109,5 +109,18 @@ public class AssignmentRepository : IAssignmentRepository
         }
 
         return assignment;
+    }
+    public async Task<Data.Entities.StudentAssignment> SubmitAssignment(int AssignmentId , int studentId)
+    {
+        var studentAssignment =
+            await _context.StudentAssignments.FindAsync(AssignmentId,studentId);
+        if (studentAssignment == null)
+        {
+            return null;
+        }
+        studentAssignment.Submitted = true;
+        studentAssignment.SubmittedAt = DateTime.Now;
+        await _context.SaveChangesAsync();
+        return studentAssignment;
     }
 }
