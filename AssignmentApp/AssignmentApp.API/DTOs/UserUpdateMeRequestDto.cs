@@ -2,7 +2,7 @@
 
 namespace AssignmentApp.API.DTOs;
 
-public class UserUpdateRequestDto
+public class UserUpdateMeRequestDto
 {
     [StringLength(30,ErrorMessage = "Must be between 3 and 30 characters " , MinimumLength = 3)]
     public string Username { get; set; }
@@ -14,7 +14,5 @@ public class UserUpdateRequestDto
     public string Email { get; set; }
   
     public string FullName { get; set; }
-    public string MSSV { get; set; }
     
-    public int RoleId { get; set; }
 }

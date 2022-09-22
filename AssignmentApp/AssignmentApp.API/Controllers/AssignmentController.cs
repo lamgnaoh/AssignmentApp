@@ -2,6 +2,7 @@
 using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.Data.Entities;
+using AssignmentApp.Data.Enums;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ public class AssignmentController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> GetAllAssignment()
     {
         var assignments = await _assignmentRepository.GetAll();
@@ -47,6 +49,7 @@ public class AssignmentController : Controller
     [HttpGet]
     [Route("{id:int}")]
     [ActionName("GetAssignmentById")]
+    [Authorize]
     public async Task<IActionResult> GetAssignmentById(int id)
     {
         var assignment = await _assignmentRepository.GetAssignment(id);
@@ -60,6 +63,7 @@ public class AssignmentController : Controller
 
     [HttpGet]
     [Route("Class/{classId:int}")]
+    [Authorize]
     public async Task<IActionResult> getAllAssigmentByClassId(int classId)
     {
         var assignments = await _assignmentRepository.GetAllByClass(classId);
@@ -77,6 +81,7 @@ public class AssignmentController : Controller
         return Ok(assignmentDtos);
     }
     [HttpPost]
+    [Authorize(Roles = "2")]
     public async Task<IActionResult> CreateAssignment(AssignmentCreateDto assignmentCreateDto)
     {
         // request dto to domain model
@@ -107,6 +112,8 @@ public class AssignmentController : Controller
 
     [HttpDelete]
     [Route("{id:int}")]
+    [Authorize(Roles = "2")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> DeleteAssignment(int id)
     {
         //get assignment from database , if null  return not found 
@@ -122,6 +129,7 @@ public class AssignmentController : Controller
 
     [HttpPut]
     [Route("{id:int}")]
+    [Authorize(Roles = "2")]
     public async Task<IActionResult> UpdateAssignment([FromRoute]int id, [FromBody] AssignmentUpdateRequestDto assignmentUpdateRequestDto)
     {
         // convert dto to domain model 

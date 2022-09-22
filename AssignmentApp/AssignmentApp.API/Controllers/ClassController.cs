@@ -2,6 +2,7 @@
 using AssignmentApp.API.Repository.Classes;
 using AssignmentApp.Data.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssignmentApp.API.Controllers;
@@ -20,6 +21,7 @@ public class ClassController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> GetAllClass()
     {
         var classes = await _classRepository.GetAll();
@@ -30,6 +32,7 @@ public class ClassController : Controller
     [HttpGet]
     [Route("{id:int}")]
     [ActionName("GetClassById")]
+    [Authorize]
     public async Task<IActionResult> GetClassById(int id)
     {
         var existingClass = await _classRepository.GetClass(id);
@@ -45,6 +48,7 @@ public class ClassController : Controller
 
     [HttpGet]
     [Route("student/{studentId:int}")]
+    [Authorize(Roles = "3")]
     public async Task<IActionResult> GetAllByStudent(int studentId)
     {
         var classAttends = await _classRepository.GetALlByStudent(studentId);
@@ -54,6 +58,7 @@ public class ClassController : Controller
     
     [HttpGet]
     [Route("teacher/{teacherId:int}")]
+    [Authorize(Roles = "2")]
     public async Task<IActionResult> GetAllByTeacher(int teacherId)
     {
         var classTeaching = await _classRepository.GetAllByTeacher(teacherId);
@@ -62,6 +67,8 @@ public class ClassController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "2")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> CreateClass(ClassCreateRequestDTO request)
     {
         var newClass = new Class()
@@ -76,6 +83,8 @@ public class ClassController : Controller
     
     [HttpDelete]
     [Route("{id:int}")]
+    [Authorize(Roles = "2")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> DeleteClass(int id)
     {
         //get assignment from database , if null  return not found 
@@ -91,6 +100,8 @@ public class ClassController : Controller
 
     [HttpPut]
     [Route("{id:int}")]
+    [Authorize(Roles = "2")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> UpdateClass([FromRoute] int id,[FromBody] ClassUpdateRequestDto request)
     {
         var existingClass = await _classRepository.GetClass(id);
@@ -120,6 +131,8 @@ public class ClassController : Controller
 
     [HttpPost]
     [Route("{classId:int}/users/{userId:int}")]
+    [Authorize(Roles = "2")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> AddUserToClass( int classId, int userId)
     {
         var userClass = await _classRepository.AddUserToClass(classId,userId);
@@ -134,6 +147,8 @@ public class ClassController : Controller
     
     [HttpDelete]
     [Route("{classId:int}/users/{userId:int}")]
+    [Authorize(Roles = "2")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> RemoveUserToClass( int classId, int userId)
     {
         var userClass = await _classRepository.RemoveUserToClass(classId,userId);
@@ -146,6 +161,7 @@ public class ClassController : Controller
 
     [HttpGet]
     [Route("{classId:int}/users")]
+    [Authorize]
     public async Task<IActionResult> GetAllUserInClass(int classId)
     {
         var users = await _classRepository.GetAllUserInClass(classId);

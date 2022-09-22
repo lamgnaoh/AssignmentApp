@@ -10,7 +10,6 @@ namespace AssignmentApp.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize]
 public class StudentAssignmentController : Controller
 {
     private readonly IStudentAssignmentRepository _studentAssignmentRepository;
@@ -23,6 +22,7 @@ public class StudentAssignmentController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "3")]
     public async Task<IActionResult> GetAllAssignedAssignment()
     {
         var idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;

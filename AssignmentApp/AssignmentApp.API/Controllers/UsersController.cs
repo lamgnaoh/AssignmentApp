@@ -1,8 +1,10 @@
-﻿using AssignmentApp.API.DTOs;
+﻿using System.Security.Claims;
+using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Users;
 using AssignmentApp.API.Utilities.Paging;
 using AssignmentApp.Data.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssignmentApp.API.Controllers;
@@ -21,6 +23,7 @@ public class UsersController:Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> GetAll([FromQuery]UserPagingParameter pagingParameter)
     {
         var users = await _userRepository.GetAll(pagingParameter);
@@ -30,6 +33,7 @@ public class UsersController:Controller
     [HttpGet]
     [Route("{id:int}")]
     [ActionName("GetUserById")]
+    [Authorize]
     public async Task<IActionResult> GetUserById(int id)
     {
         var user = await _userRepository.GetUserById(id);
@@ -37,6 +41,7 @@ public class UsersController:Controller
         return Ok(userDto);
     }
     [HttpPost]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateRequestDto request)
     {
         if (!ModelState.IsValid)
@@ -59,6 +64,7 @@ public class UsersController:Controller
 
     [HttpPut]
     [Route("{id:int}")]
+    [Authorize(Roles = "1")]
     // admin update user
     public async Task<IActionResult> UpdateUser([FromRoute] int id,
         [FromBody] UserUpdateRequestDto userUpdateRequestDto)
@@ -78,7 +84,7 @@ public class UsersController:Controller
             PhoneNumber = userUpdateRequestDto.PhoneNumber,
             FullName = userUpdateRequestDto.FullName,
             MSSV = userUpdateRequestDto.MSSV,
-            RoleId = userUpdateRequestDto.RoleId
+            RoleId = updateUser.RoleId
         };
 
         updateUser = await _userRepository.UpdateUser(updateUser, id);
@@ -93,6 +99,7 @@ public class UsersController:Controller
     
     [HttpDelete]
     [Route("{id:int}")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> DeleteUser(int id)
     {
         //get assignment from database , if null  return not found 
@@ -108,6 +115,7 @@ public class UsersController:Controller
 
     [HttpGet]
     [Route("search")]
+    [Authorize]
     public async Task<IActionResult> GetUserByUsername([FromQuery]string keyword)
     {
         var users = await _userRepository.GetUserByUserName(keyword);
@@ -118,5 +126,38 @@ public class UsersController:Controller
 
         var userDto = _mapper.Map<List<UserDto>>(users);
         return Ok(userDto);
+    }
+    
+    // Update me
+    [HttpPost]
+    [Route("me")]
+    [Authorize]
+    public async Task<IActionResult> UpdateMe([FromBody] UserUpdateMeRequestDto updateRequestDto)
+    {
+        var idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        var id = Int32.Parse(idClaim);
+        var updateUser = await _userRepository.GetUserById(id);
+        if (updateUser == null)
+        {
+            return NotFound();
+        }
+        updateUser = new User()
+        {
+            Username = updateRequestDto.Username,
+            Password = updateRequestDto.Password,
+            Email = updateRequestDto.Email,
+            PhoneNumber = updateRequestDto.PhoneNumber,
+            FullName = updateRequestDto.FullName,
+            MSSV =updateUser.MSSV,
+            RoleId = updateUser.RoleId
+        };
+        updateUser = await _userRepository.UpdateUser(updateUser, id);
+        if (updateUser == null)
+        {
+            return BadRequest();
+        }
+
+        var updateUserDto = _mapper.Map<UserDto>(updateUser);
+        return Ok(updateUserDto);
     }
 }
