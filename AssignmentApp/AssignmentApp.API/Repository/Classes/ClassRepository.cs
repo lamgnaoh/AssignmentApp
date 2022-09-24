@@ -67,12 +67,12 @@ public class ClassRepository : IClassRepository
     }
     
     // lấy tất cả các lớp học sinh tham dự
-    public async Task<List<Class>> GetALlByStudent(int studentId)
+    public async Task<List<Class>> GetALlAttended(int userId)
     {
         var queryable = from uc in _context.UserClasses
                         join c in _context.Classes on uc.ClassId equals c.ClassId
                         join u in _context.Users on uc.UserId equals u.Id
-                        where uc.UserId == studentId && u.RoleId == 3
+                        where uc.UserId == userId 
                         select c;
         var classAttends = await queryable.ToListAsync();
         // var queryable2 = from uc in _context.UserClasses
@@ -88,17 +88,7 @@ public class ClassRepository : IClassRepository
         return classAttends;
     }
 
-    public async Task<List<Class>> GetAllByTeacher(int teacherId)
-    {
-        var queryable = from uc in _context.UserClasses
-            join c in _context.Classes on uc.ClassId equals c.ClassId
-            join u in _context.Users on uc.UserId equals u.Id
-            where uc.UserId == teacherId && u.RoleId == 2
-            select c;
-        var classTeaching  = await queryable.ToListAsync();
-        return classTeaching;
-    }
-
+    
     public async Task<UserClass> AddUserToClass(int classId, int userId)
     {
         var userInClass = await _context.UserClasses.FindAsync(userId,classId);

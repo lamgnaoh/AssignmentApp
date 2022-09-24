@@ -1,5 +1,4 @@
 ﻿using AssignmentApp.Data.Entities;
-using AssignmentApp.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace AssignmentApp.Data.Extension;
@@ -9,31 +8,38 @@ public static class ModelBuilderExtensions
     public static void Seed(this ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AppRole>().HasData(
-            new AppRole() { RoleId = 1, role = Role.admin },
-            new AppRole() { RoleId = 2, role = Role.teacher },
-            new AppRole() { RoleId = 3, role = Role.student }
+            new AppRole() { RoleId = 1, Name = "admin" },
+            new AppRole() { RoleId = 2, Name = "teacher" },
+            new AppRole() { RoleId = 3, Name = "student" }
         );
         modelBuilder.Entity<User>().HasData(
             new User()
             {
                 Id = 1, Username = "Luong Hoang Lam 20183780", Password = "12345678", PhoneNumber = "0123123xxx",
-                Email = "lam.lh183780@sis.hust.edu.vn", MSSV = "20183780", FullName = "Luong Hoang Lam" , RoleId = 3
+                Email = "lam.lh183780@sis.hust.edu.vn", MSSV = "20183780", FullName = "Luong Hoang Lam" 
             },
             new User()
             {
                 Id = 2, Username = "Dang Bao Lam 20183779", Password = "12345678", PhoneNumber = "0456456xxx",
-                Email = "lam.db183779@sis.hust.edu.vn", MSSV = "20183779", FullName = "Dang Bao Lam", RoleId = 3
+                Email = "lam.db183779@sis.hust.edu.vn", MSSV = "20183779", FullName = "Dang Bao Lam"
             },
             new User()
             {
                 Id = 3, Username = "Nguyen Dinh Thuan", Password = "12345678", PhoneNumber = "0789789xxx",
-                Email = "thuan.nguyendinh@hust.edu.vn", FullName = "Nguyen Dinh Thuan" , RoleId = 2
+                Email = "thuan.nguyendinh@hust.edu.vn", FullName = "Nguyen Dinh Thuan" 
             },
             new User()
             {
                 Id = 4, Username = "admin", Password = "admin", PhoneNumber = "0456789xxx",
-                Email = "admin@hust.edu.vn", FullName = "admin" , RoleId = 1
+                Email = "admin@hust.edu.vn", FullName = "admin"
             }
+        );
+        modelBuilder.Entity<UserRole>().HasData(
+            new UserRole() { UserId = 1, RoleId = 3 },
+            new UserRole() { UserId = 2, RoleId = 3 },
+            new UserRole() { UserId = 3, RoleId = 2 },
+            new UserRole() { UserId = 3, RoleId = 1 },
+            new UserRole() { UserId = 4, RoleId = 1 }
         );
         modelBuilder.Entity<Class>().HasData(
             new Class() { ClassId = 1, Name = "project 20213" , CreateAt = DateTime.Parse("08/06/2022 23:30:00") },

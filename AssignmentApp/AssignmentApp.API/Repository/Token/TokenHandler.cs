@@ -16,13 +16,12 @@ public class TokenHandler : ITokenHandler
     }
     public async Task<string> CreateTokenHanlder(User user)
     {
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Name, user.FullName),
-            new Claim(ClaimTypes.Role, user.RoleId.ToString()),
-            new Claim(ClaimTypes.NameIdentifier , user.Id.ToString())
-        };
+        var claims = new List<Claim>();
+        claims.Add(new Claim("Email", user.Email));
+        claims.Add(new Claim("Name", user.FullName));
+        // claims.Add( new Claim(ClaimTypes.Role, user.RoleId.ToString()));
+        claims.Add(new Claim(ClaimTypes.NameIdentifier , user.Id.ToString()));
+        
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(_config["Jwt:Issuer"],

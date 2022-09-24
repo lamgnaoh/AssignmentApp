@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using AssignmentApp.API.DTOs;
+using AssignmentApp.API.Repository.UserRoles;
 using AssignmentApp.API.Repository.Users;
 using AssignmentApp.API.Utilities.Paging;
 using AssignmentApp.Data.Entities;
@@ -41,7 +42,7 @@ public class UsersController:Controller
         return Ok(userDto);
     }
     [HttpPost]
-    [Authorize(Roles = "1")]
+    // [Authorize(Roles = "1")]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateRequestDto request)
     {
         if (!ModelState.IsValid)
@@ -54,10 +55,10 @@ public class UsersController:Controller
             PhoneNumber = request.PhoneNumber,
             Email = request.Email,
             MSSV = request.MSSV,
-            FullName = request.FullName,
-            RoleId = request.RoleId
+            FullName = request.FullName
         };
-        newUser = await _userRepository.CreateUser(newUser);
+        var RoleIds = request.RoleID;
+        newUser = await _userRepository.CreateUser(newUser,RoleIds);
         var newUserDto = _mapper.Map<UserDto>(newUser);
         return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUserDto);
     }
@@ -65,7 +66,7 @@ public class UsersController:Controller
     [HttpPut]
     [Route("{id:int}")]
     [Authorize(Roles = "1")]
-    // admin update user
+    // admin update user info
     public async Task<IActionResult> UpdateUser([FromRoute] int id,
         [FromBody] UserUpdateRequestDto userUpdateRequestDto)
     {
@@ -84,10 +85,9 @@ public class UsersController:Controller
             PhoneNumber = userUpdateRequestDto.PhoneNumber,
             FullName = userUpdateRequestDto.FullName,
             MSSV = userUpdateRequestDto.MSSV,
-            RoleId = updateUser.RoleId
         };
 
-        updateUser = await _userRepository.UpdateUser(updateUser, id);
+        updateUser = await _userRepository.UpdateUser(updateUser, id); 
         if (updateUser == null)
         {
             return BadRequest();
@@ -149,7 +149,7 @@ public class UsersController:Controller
             PhoneNumber = updateRequestDto.PhoneNumber,
             FullName = updateRequestDto.FullName,
             MSSV =updateUser.MSSV,
-            RoleId = updateUser.RoleId
+            // RoleId = updateUser.RoleId
         };
         updateUser = await _userRepository.UpdateUser(updateUser, id);
         if (updateUser == null)

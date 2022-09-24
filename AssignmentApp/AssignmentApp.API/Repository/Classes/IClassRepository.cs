@@ -11,8 +11,7 @@ public interface IClassRepository
     Task<Class> UpdateClass(Class updateClass , int classId);
     Task<Class> DeleteClass(int classId);
     Task<Class> GetClass(int classId);
-    Task<List<Class>> GetALlByStudent(int studentId);
-    Task<List<Class>> GetAllByTeacher(int teacherId);
+    Task<List<Class>> GetALlAttended(int userId);
 
     Task<UserClass> AddUserToClass(int classId, int userId);
     Task<UserClass> RemoveUserToClass(int classId, int userId);

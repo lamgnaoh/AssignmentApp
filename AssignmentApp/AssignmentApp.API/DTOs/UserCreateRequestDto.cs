@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AssignmentApp.Data.Entities;
 
 namespace AssignmentApp.API.DTOs;
 
@@ -20,5 +21,5 @@ public class UserCreateRequestDto
     public string FullName { get; set; }
     public string? MSSV { get; set; }
     [Required]
-    public int RoleId { get; set; }
+    public List<int> RoleID { get; set; }
 }

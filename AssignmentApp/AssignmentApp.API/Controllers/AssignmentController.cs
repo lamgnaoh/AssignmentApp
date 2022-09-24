@@ -2,7 +2,6 @@
 using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.Data.Entities;
-using AssignmentApp.Data.Enums;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

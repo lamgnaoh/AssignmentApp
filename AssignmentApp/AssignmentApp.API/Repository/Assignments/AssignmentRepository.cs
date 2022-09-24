@@ -1,7 +1,6 @@
 ﻿using AssignmentApp.API.Utilities.Exception;
 using AssignmentApp.Data.EF;
 using AssignmentApp.Data.Entities;
-using AssignmentApp.Data.Enums;
 using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +28,8 @@ public class AssignmentRepository : IAssignmentRepository
         var query = from uc in _context.UserClasses
             where uc.ClassId == createAssignment.ClassId
             join u in _context.Users on uc.UserId equals u.Id
-            where u.RoleId == 3
+            join ur in _context.UserRoles on u.Id equals ur.UserId
+             where ur.RoleId == 3
             select u.Id;
        
         await _context.Assignments.AddAsync(assignment);

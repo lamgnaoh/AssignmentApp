@@ -1,9 +1,10 @@
 ﻿using System.Security.Claims;
+using System.Security.Cryptography;
 using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Users;
-using AssignmentApp.Data.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace AssignmentApp.API.Controllers;
 
@@ -29,21 +30,15 @@ public class AuthController : Controller
         {
             return BadRequest("Email or password is not correct");
         }
-
-        var userRole ="";
-        if (User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value == "1")
-        {
-            userRole = "teacher";
-        }else if (User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value == "2")
-        {
-            userRole = "student";
-        }
-        else
-        {
-            userRole = "admin";
-        }
         
-        return Ok(new {token = resultToken , name = User.Claims.FirstOrDefault(x=> x.Type == ClaimTypes.Name)?.Value, role = userRole});
+        //Get list of claim
+        
+        return Ok(new
+            {
+                token = resultToken,
+                fullname = HttpContext.User.FindFirstValue("Name")
+            }
+        );
         
 
     }

@@ -1,10 +1,10 @@
 ﻿
 namespace AssignmentApp.Data.Entities;
 
-public class UserClass
+public class UserRole
 {
     public int UserId { get; set; }
     public User User { get; set; }
-    public int ClassId { get; set; }
-    public Class Class { get; set; }
+    public int RoleId { get; set; }
+    public AppRole AppRole { get; set; }
 }

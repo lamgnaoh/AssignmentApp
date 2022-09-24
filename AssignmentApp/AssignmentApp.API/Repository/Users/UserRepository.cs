@@ -51,8 +51,8 @@ public class UserRepository : IUserRepository
             Email = request.Email,
             MSSV = request.MSSV,
             FullName = request.FullName,
-            RoleId = request.RoleId
         };
+        
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
         return true;
@@ -66,7 +66,7 @@ public class UserRepository : IUserRepository
         return users;
     }
 
-    public async Task<User> CreateUser(User createUser)
+    public async Task<User> CreateUser(User createUser, List<int> RoleIDs)
     {
         var newUser = new User()
         {
@@ -76,9 +76,18 @@ public class UserRepository : IUserRepository
             Email = createUser.Email,
             MSSV = createUser.MSSV,
             FullName = createUser.FullName,
-            RoleId = createUser.RoleId
         };
-         await _context.Users.AddAsync(newUser);
+        await _context.Users.AddAsync(newUser);
+        await _context.SaveChangesAsync();
+        foreach (var roleID in RoleIDs)
+        {
+            var newUserRole = new UserRole()
+            {
+                UserId = newUser.Id,
+                RoleId = roleID
+            };
+            await _context.UserRoles.AddAsync(newUserRole);
+        }
          await _context.SaveChangesAsync();
          return newUser;
 
@@ -104,7 +113,23 @@ public class UserRepository : IUserRepository
         existingUser.Email= user.Email;
         existingUser.MSSV= user.MSSV;
         existingUser.FullName= user.FullName;
-        existingUser.RoleId= user.RoleId;
+        // existingUser.RoleId= user.RoleId;
+        await _context.SaveChangesAsync();
+        return existingUser;
+    }
+
+  
+    public async Task<User> UpdateRole(int userId, int RoleId)
+    {
+        var existingUser = await _context.Users.FindAsync(userId);
+        if (existingUser == null)
+        {
+            throw new CustomException($"This assignment id is not found : {userId}");
+            return null;
+        }
+
+        var existingUserRole = await _context.UserRoles.FindAsync(userId);
+        existingUserRole.RoleId = RoleId;
         await _context.SaveChangesAsync();
         return existingUser;
     }

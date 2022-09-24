@@ -1,9 +1,11 @@
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.API.Repository.Classes;
 using AssignmentApp.API.Repository.StudentAssignment;
 using AssignmentApp.API.Repository.Token;
+using AssignmentApp.API.Repository.UserRoles;
 using AssignmentApp.API.Repository.Users;
 using AssignmentApp.Data.EF;
 using AssignmentApp.Data.Entities;
@@ -60,6 +62,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IStudentAssignmentRepository, StudentAssignmentRepository>();
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
+builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 // builder.Services.AddTransient<UserManager<User>, UserManager<User>>();
 // builder.Services.AddTransient<SignInManager<User>, SignInManager<User>>();
 // builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
@@ -77,7 +80,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     });
-
+// builder.Services.Configure<IdentityOptions>(options =>
+//     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

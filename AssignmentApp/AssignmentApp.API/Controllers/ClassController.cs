@@ -47,24 +47,16 @@ public class ClassController : Controller
     }
 
     [HttpGet]
-    [Route("student/{studentId:int}")]
+    [Route("user/{userId:int}")]
     [Authorize(Roles = "3")]
-    public async Task<IActionResult> GetAllByStudent(int studentId)
+    public async Task<IActionResult> GetAllClassAttended(int userId)
     {
-        var classAttends = await _classRepository.GetALlByStudent(studentId);
+        var classAttends = await _classRepository.GetALlAttended(userId);
         var classAttendsDto = _mapper.Map<List<ClassDto>>(classAttends);
         return Ok(classAttendsDto);
     }
     
-    [HttpGet]
-    [Route("teacher/{teacherId:int}")]
-    [Authorize(Roles = "2")]
-    public async Task<IActionResult> GetAllByTeacher(int teacherId)
-    {
-        var classTeaching = await _classRepository.GetAllByTeacher(teacherId);
-        var classTeachingDto = _mapper.Map<List<ClassDto>>(classTeaching);
-        return Ok(classTeachingDto);
-    }
+    
 
     [HttpPost]
     [Authorize(Roles = "2")]
