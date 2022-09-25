@@ -128,7 +128,7 @@ public class UsersController:Controller
         return Ok(userDto);
     }
     
-    // Update me
+    // Update me- khong the update role
     [HttpPost]
     [Route("me")]
     [Authorize]
@@ -139,7 +139,7 @@ public class UsersController:Controller
         var updateUser = await _userRepository.GetUserById(id);
         if (updateUser == null)
         {
-            return NotFound();
+            return NotFound($"No User with id {id}");
         }
         updateUser = new User()
         {
@@ -148,13 +148,12 @@ public class UsersController:Controller
             Email = updateRequestDto.Email,
             PhoneNumber = updateRequestDto.PhoneNumber,
             FullName = updateRequestDto.FullName,
-            MSSV =updateUser.MSSV,
-            // RoleId = updateUser.RoleId
+            MSSV =updateUser.MSSV
         };
         updateUser = await _userRepository.UpdateUser(updateUser, id);
         if (updateUser == null)
         {
-            return BadRequest();
+            return BadRequest("Cannot update user");
         }
 
         var updateUserDto = _mapper.Map<UserDto>(updateUser);

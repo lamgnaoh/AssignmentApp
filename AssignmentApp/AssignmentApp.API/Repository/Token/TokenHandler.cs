@@ -14,12 +14,16 @@ public class TokenHandler : ITokenHandler
     {
         _config = config;
     }
-    public async Task<string> CreateTokenHanlder(User user)
+    public async Task<string> CreateTokenHanlder(User user,List<UserRole> userRoles)
     {
+       
         var claims = new List<Claim>();
         claims.Add(new Claim("Email", user.Email));
         claims.Add(new Claim("Name", user.FullName));
-        // claims.Add( new Claim(ClaimTypes.Role, user.RoleId.ToString()));
+        foreach (var role in userRoles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role , role.RoleId.ToString()));
+        }
         claims.Add(new Claim(ClaimTypes.NameIdentifier , user.Id.ToString()));
         
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));

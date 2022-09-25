@@ -1,4 +1,6 @@
-﻿using AssignmentApp.API.DTOs;
+﻿using System.Runtime.InteropServices;
+using System.Security.Claims;
+using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Classes;
 using AssignmentApp.Data.Entities;
 using AutoMapper;
@@ -47,11 +49,13 @@ public class ClassController : Controller
     }
 
     [HttpGet]
-    [Route("user/{userId:int}")]
-    [Authorize(Roles = "3")]
-    public async Task<IActionResult> GetAllClassAttended(int userId)
+    [Route("user")]
+    [Authorize(Roles = "2,3")]
+    public async Task<IActionResult> GetAllClassAttended()
     {
-        var classAttends = await _classRepository.GetALlAttended(userId);
+        var idClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userID = Int32.Parse(idClaim);
+        var classAttends = await _classRepository.GetALlAttended(userID);
         var classAttendsDto = _mapper.Map<List<ClassDto>>(classAttends);
         return Ok(classAttendsDto);
     }
@@ -59,8 +63,7 @@ public class ClassController : Controller
     
 
     [HttpPost]
-    [Authorize(Roles = "2")]
-    [Authorize(Roles = "1")]
+    [Authorize(Roles= "2,1" )]
     public async Task<IActionResult> CreateClass(ClassCreateRequestDTO request)
     {
         var newClass = new Class()
@@ -69,14 +72,13 @@ public class ClassController : Controller
             CreateAt = DateTime.Now
         };
         var response = await _classRepository.CreateClass(newClass);
-        var classDto = _mapper.Map<List<ClassDto>>(response);
+        var classDto = _mapper.Map<ClassDto>(response);
         return CreatedAtAction(nameof(GetClassById), new { id = response.ClassId }, classDto);
     }
     
     [HttpDelete]
     [Route("{id:int}")]
-    [Authorize(Roles = "2")]
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "2,1")]
     public async Task<IActionResult> DeleteClass(int id)
     {
         //get assignment from database , if null  return not found 
@@ -92,8 +94,7 @@ public class ClassController : Controller
 
     [HttpPut]
     [Route("{id:int}")]
-    [Authorize(Roles = "2")]
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "2,1")]
     public async Task<IActionResult> UpdateClass([FromRoute] int id,[FromBody] ClassUpdateRequestDto request)
     {
         var existingClass = await _classRepository.GetClass(id);
@@ -121,12 +122,24 @@ public class ClassController : Controller
         return Ok(updateClassDto);
     }
 
+    // chi admin moi co quyen add user vao trong tat ca class . con teacher day class nao moi co quyen add user vao trong class do 
     [HttpPost]
     [Route("{classId:int}/users/{userId:int}")]
-    [Authorize(Roles = "2")]
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "2,1")]
     public async Task<IActionResult> AddUserToClass( int classId, int userId)
     {
+        var IdClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        var roleClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+        var roleId = Int32.Parse(roleClaim);
+        if (roleId != 1)
+        {
+            var Id = Int32.Parse(IdClaim);
+            var isUserInClass =  await _classRepository.IsUserInClass(classId, Id);
+            if (!isUserInClass)
+            {
+                return BadRequest($"You cannot add another user to class with id {classId} because you not in class");
+            }
+        }
         var userClass = await _classRepository.AddUserToClass(classId,userId);
         if (userClass == null)
         {
@@ -137,25 +150,55 @@ public class ClassController : Controller
         return Ok(userClassDto);
     }
     
+    // chi admin moi co quyen remove user khoi  tat ca class . con teacher day class nao moi co quyen remove user  trong class do 
+
     [HttpDelete]
     [Route("{classId:int}/users/{userId:int}")]
-    [Authorize(Roles = "2")]
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "2,1")]
     public async Task<IActionResult> RemoveUserToClass( int classId, int userId)
     {
+        var IdClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        var roleClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+        var roleId = Int32.Parse(roleClaim);
+        if (roleId != 1)
+        {
+            var Id = Int32.Parse(IdClaim);
+            var isUserInClass =  await _classRepository.IsUserInClass(classId, Id);
+            if (!isUserInClass)
+            {
+                return BadRequest($"You cannot add another user to class with id {classId} because you not in class");
+            }
+        }
         var userClass = await _classRepository.RemoveUserToClass(classId,userId);
         if (userClass == null)
         {
             return BadRequest($"Can not remove user with id {userId} to class with id {classId}");
         }
-        return Ok();
+
+        var userInClass = await _classRepository.GetAllUserInClass(classId);
+        var userInClassDto = _mapper.Map<List<UserDto>>(userInClass);
+        return Ok(userInClassDto);
     }
+
+    // chi admin moi co quyen get list user  trong tat ca class . con user nao trong   class nao moi co quyen get list  user  trong class do 
 
     [HttpGet]
     [Route("{classId:int}/users")]
     [Authorize]
     public async Task<IActionResult> GetAllUserInClass(int classId)
     {
+        var IdClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        var roleClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+        var roleId = Int32.Parse(roleClaim);
+        if (roleId != 1)
+        {
+            var Id = Int32.Parse(IdClaim);
+            var isUserInClass =  await _classRepository.IsUserInClass(classId, Id);
+            if (!isUserInClass)
+            {
+                return BadRequest($"You cannot add another user to class with id {classId} because you not in class");
+            }
+        }
         var users = await _classRepository.GetAllUserInClass(classId);
         var usersDto = _mapper.Map<List<UserDto>>(users);
         return Ok(usersDto);

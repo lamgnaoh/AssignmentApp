@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Intrinsics;
 
 namespace AssignmentApp.API.DTOs;
 
@@ -20,6 +21,7 @@ public class RegisterRequest
     public string ConfirmPassword { get; set; }
     
     [Required]
+    [StringLength(15, ErrorMessage = "Phone number must be at least  12 character")]
     public string PhoneNumber { get; set; }
     
     [EmailAddress(ErrorMessage = "Invalid email address")]

@@ -111,8 +111,7 @@ public class AssignmentController : Controller
 
     [HttpDelete]
     [Route("{id:int}")]
-    [Authorize(Roles = "2")]
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "2,1")]
     public async Task<IActionResult> DeleteAssignment(int id)
     {
         //get assignment from database , if null  return not found 
@@ -128,7 +127,7 @@ public class AssignmentController : Controller
 
     [HttpPut]
     [Route("{id:int}")]
-    [Authorize(Roles = "2")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> UpdateAssignment([FromRoute]int id, [FromBody] AssignmentUpdateRequestDto assignmentUpdateRequestDto)
     {
         // convert dto to domain model 

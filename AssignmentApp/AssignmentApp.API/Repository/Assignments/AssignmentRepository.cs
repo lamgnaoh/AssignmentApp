@@ -118,6 +118,7 @@ public class AssignmentRepository : IAssignmentRepository
         {
             return null;
         }
+        //chinh sua student assignment 
         studentAssignment.Submitted = true;
         studentAssignment.SubmittedAt = DateTime.Now;
         await _context.SaveChangesAsync();

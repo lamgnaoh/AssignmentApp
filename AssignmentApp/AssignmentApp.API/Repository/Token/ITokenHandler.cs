@@ -4,5 +4,5 @@ namespace AssignmentApp.API.Repository.Token;
 
 public interface ITokenHandler
 {
-    Task<string> CreateTokenHanlder(User user);
+    Task<string> CreateTokenHanlder(User user, List<UserRole> userRoles);
 }

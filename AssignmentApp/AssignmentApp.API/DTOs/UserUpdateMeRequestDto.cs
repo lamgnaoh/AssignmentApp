@@ -12,7 +12,6 @@ public class UserUpdateMeRequestDto
   
     [EmailAddress(ErrorMessage = "Invalid email address")]
     public string Email { get; set; }
-  
+
     public string FullName { get; set; }
-    
 }

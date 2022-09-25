@@ -1,4 +1,5 @@
-﻿using AssignmentApp.Data.EF;
+﻿using AssignmentApp.API.Utilities.Exception;
+using AssignmentApp.Data.EF;
 using Microsoft.EntityFrameworkCore;
 
 namespace AssignmentApp.API.Repository.StudentAssignment;
@@ -38,6 +39,12 @@ public class StudentAssignmentRepository : IStudentAssignmentRepository
         if (studentAssignment == null)
         {
             return null;
+        }
+        
+        if (studentAssignment.Submitted == false)
+        {
+            return null;
+            
         }
 
         studentAssignment.Grade = markedStudentAssignment.Grade;

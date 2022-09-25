@@ -29,11 +29,18 @@ public class UserRepository : IUserRepository
     public async Task<string> Authenticate(LoginRequest request)
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
-        if (user == null || user.Password.Equals(request.Password) != true) 
+        var userRoles = await _context.UserRoles.Where(x => x.UserId == user.Id).ToListAsync();
+        if (user == null)
         {
+            throw new CustomException("No account belong to this email.Try again");
             return null;
         }
-        var token = await _iTokenHandler.CreateTokenHanlder(user);
+        if (user.Password.Equals(request.Password) != true)
+        {
+            throw new CustomException("Wrong password");
+            return null;
+        }
+        var token = await _iTokenHandler.CreateTokenHanlder(user,userRoles);
         return token;
     }
 
@@ -47,13 +54,20 @@ public class UserRepository : IUserRepository
         var user = new User()
         {
             Username = request.Username,
+            Password = request.Password,
             PhoneNumber = request.PhoneNumber,
             Email = request.Email,
             MSSV = request.MSSV,
             FullName = request.FullName,
         };
-        
         await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
+        var userRole = new UserRole()
+        {
+            UserId = user.Id,
+            RoleId = request.RoleId
+        };
+        await _context.UserRoles.AddAsync(userRole);
         await _context.SaveChangesAsync();
         return true;
     }

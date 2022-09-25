@@ -33,16 +33,31 @@ public class AuthController : Controller
         
         //Get list of claim
         
-        return Ok(new
-            {
-                token = resultToken,
-                fullname = HttpContext.User.FindFirstValue("Name")
-            }
-        );
+        return Ok(resultToken);
+        
         
 
     }
-    
+
+    [HttpGet]
+    [Route("user-info")]
+    [Authorize]
+    public async Task<IActionResult> GetUserInfoFromToken()
+    {
+        var fullName = User.FindFirstValue("Name");
+        var roleClaims = User.Claims.Where(x=> x.Type == ClaimTypes.Role).ToList();
+        var roles = new List<int>();
+        foreach (var roleClaim in roleClaims)
+        {
+            var roleId = roleClaim.Value;
+            var role = Int32.Parse(roleId);
+            roles.Add(role);
+        }
+        var email = User.FindFirstValue("Email");
+        return Ok(new {fullName,
+            roles,
+            email});
+    }
     [HttpPost("register")]
     [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)

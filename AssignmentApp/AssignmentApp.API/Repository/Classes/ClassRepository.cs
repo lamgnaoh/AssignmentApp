@@ -57,6 +57,7 @@ public class ClassRepository : IClassRepository
         var assignments = await _context.Assignments.Where(x => x.ClassId == classId).ToListAsync();
         _context.UserClasses.RemoveRange(userClasses);
         _context.Assignments.RemoveRange(assignments);
+        _context.Classes.Remove(existingClass);
         await _context.SaveChangesAsync();
         return existingClass;
     }
@@ -91,6 +92,11 @@ public class ClassRepository : IClassRepository
     
     public async Task<UserClass> AddUserToClass(int classId, int userId)
     {
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null)
+        {
+            throw new CustomException($"No user with id {userId}");
+        }
         var userInClass = await _context.UserClasses.FindAsync(userId,classId);
         if (userInClass != null)
         {
@@ -125,9 +131,21 @@ public class ClassRepository : IClassRepository
         foreach (var userId in query)
         {
             var userInClass = await _context.Users.FindAsync(userId);
+            
             listUserInClass.Add(userInClass);
         }
 
         return listUserInClass;
+    }
+
+    public async Task<bool> IsUserInClass(int classId, int userId)
+    {
+        var userInClass = await _context.UserClasses.FindAsync(userId, classId);
+        if (userInClass == null)
+        {
+            return false;
+            
+        }
+        return true;
     }
 }

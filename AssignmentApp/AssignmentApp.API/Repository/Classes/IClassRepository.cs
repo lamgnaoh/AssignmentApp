@@ -16,4 +16,5 @@ public interface IClassRepository
     Task<UserClass> AddUserToClass(int classId, int userId);
     Task<UserClass> RemoveUserToClass(int classId, int userId);
     Task<List<User>> GetAllUserInClass(int classId);
+    Task<bool> IsUserInClass(int classId, int userId);
 }
