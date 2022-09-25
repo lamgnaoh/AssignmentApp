@@ -27,20 +27,6 @@ public class AssignmentController : Controller
     public async Task<IActionResult> GetAllAssignment()
     {
         var assignments = await _assignmentRepository.GetAll();
-        // var assignmentsDto = new List<AssignmentDto>();
-        // assignments.ToList().ForEach(assignment =>
-        // {
-        //     var assignmentDto = new AssignmentDto()
-        //     {
-        //         Id = assignment.AssignmentId,
-        //         ClassID = assignment.ClassId,
-        //         Content = assignment.Content,
-        //         CreateAt = assignment.CreateAt,
-        //         DueTo = assignment.DueTo,
-        //         Title = assignment.Title
-        //     };
-        //     assignmentsDto.Add(assignmentDto);
-        // });
         var assignmentsDto = _mapper.Map<List<AssignmentDto>>(assignments);
         return Ok(assignmentsDto);
     }
@@ -127,7 +113,7 @@ public class AssignmentController : Controller
 
     [HttpPut]
     [Route("{id:int}")]
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "2,1")]
     public async Task<IActionResult> UpdateAssignment([FromRoute]int id, [FromBody] AssignmentUpdateRequestDto assignmentUpdateRequestDto)
     {
         // convert dto to domain model 

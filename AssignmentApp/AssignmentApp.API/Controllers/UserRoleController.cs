@@ -1,6 +1,7 @@
 ﻿using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.UserRoles;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssignmentApp.API.Controllers;
@@ -19,6 +20,7 @@ public class UserRoleController:Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> GetAllUserRole(int userId)
     {
         var userRoles = await _userRoleRepository.GetALlRoleForUser(userId);
@@ -27,6 +29,7 @@ public class UserRoleController:Controller
     }
     [HttpPost]
     [Route("Users/{userId:int}/Roles/{roleId:int}")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> CreateUserRole(int userId,int roleId)
     {
         var userRoles = await _userRoleRepository.CreateUserRole(userId,roleId);
@@ -35,6 +38,7 @@ public class UserRoleController:Controller
     }
     [HttpDelete]
     [Route("Users/{userId:int}/Roles/{roleId:int}")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> DeleteRole(int userId,int roleId)
     {
         var userRoles = await _userRoleRepository.DeleteUserRole(userId,roleId);
@@ -48,6 +52,7 @@ public class UserRoleController:Controller
     }
     [HttpPut]
     [Route("Users/{userId:int}/Roles/{roleId:int}")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> UpdateUserRole(int userId,int roleId,roleUpdateRequest requestUpdate)
     {
         var userRoles = await _userRoleRepository.DeleteUserRole(userId,roleId);

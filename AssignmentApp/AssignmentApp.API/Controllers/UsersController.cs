@@ -42,7 +42,7 @@ public class UsersController:Controller
         return Ok(userDto);
     }
     [HttpPost]
-    // [Authorize(Roles = "1")]
+    [Authorize(Roles = "1")]
     public async Task<IActionResult> CreateUser([FromBody] UserCreateRequestDto request)
     {
         if (!ModelState.IsValid)
