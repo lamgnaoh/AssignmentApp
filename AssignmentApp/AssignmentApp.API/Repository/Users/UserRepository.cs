@@ -86,7 +86,7 @@ public class UserRepository : IUserRepository
         {
             Username = createUser.Username,
             Password = createUser.Password,
-            PhoneNumber = createUser.Password,
+            PhoneNumber = createUser.PhoneNumber,
             Email = createUser.Email,
             MSSV = createUser.MSSV,
             FullName = createUser.FullName,
