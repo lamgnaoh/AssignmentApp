@@ -25,7 +25,16 @@ public class TokenHandler : ITokenHandler
             claims.Add(new Claim(ClaimTypes.Role , role.RoleId.ToString()));
         }
         claims.Add(new Claim(ClaimTypes.NameIdentifier , user.Id.ToString()));
-        
+        claims.Add(new Claim("PhoneNumber" , user.PhoneNumber));
+        if (user.MSSV == null)
+        {
+            claims.Add(new Claim("MSSV" , "null"));
+        }
+        else
+        {
+            claims.Add(new Claim("MSSV" , user.MSSV));
+
+        }
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(_config["Jwt:Issuer"],

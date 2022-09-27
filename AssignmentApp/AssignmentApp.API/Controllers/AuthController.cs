@@ -46,17 +46,33 @@ public class AuthController : Controller
     {
         var fullName = User.FindFirstValue("Name");
         var roleClaims = User.Claims.Where(x=> x.Type == ClaimTypes.Role).ToList();
-        var roles = new List<int>();
+        IList<string> roles = new List<string>();
         foreach (var roleClaim in roleClaims)
         {
             var roleId = roleClaim.Value;
-            var role = Int32.Parse(roleId);
+            string role = null;
+            if (roleId =="1")
+            {
+                role = "admin";
+            } else if (roleId == "2")
+            {
+                role = "teacher";
+            } else if (roleId == "3")
+            {
+                role = "student";
+            }
+            
             roles.Add(role);
         }
+
+       string stringrole =  string.Join(" ", roles.ToArray());
         var email = User.FindFirstValue("Email");
+        var username = User.FindFirstValue("Name");
+        var phoneNumber = User.FindFirstValue("PhoneNumber");
+        var mssv = User.FindFirstValue("MSSV");
         return Ok(new {fullName,
-            roles,
-            email});
+            stringrole,
+            email,username,phoneNumber,mssv});
     }
     [HttpPost("register")]
     [AllowAnonymous]
