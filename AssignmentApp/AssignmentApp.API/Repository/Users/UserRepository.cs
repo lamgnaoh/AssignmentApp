@@ -133,20 +133,28 @@ public class UserRepository : IUserRepository
     }
 
   
-    public async Task<User> UpdateRole(int userId, int RoleId)
-    {
-        var existingUser = await _context.Users.FindAsync(userId);
-        if (existingUser == null)
-        {
-            throw new CustomException($"This assignment id is not found : {userId}");
-            return null;
-        }
-
-        var existingUserRole = await _context.UserRoles.FindAsync(userId);
-        existingUserRole.RoleId = RoleId;
-        await _context.SaveChangesAsync();
-        return existingUser;
-    }
+    // public async Task<User> UpdateRole(int userId,int roleId)
+    // {
+    //     var existingUser = await _context.Users.FindAsync(userId);
+    //     if (existingUser == null)
+    //     {
+    //         throw new CustomException($"This assignment id is not found : {userId}");
+    //         return null;
+    //     }
+    //
+    //     foreach (var roleId in roles)
+    //     {
+    //         var existingUserRole = await _context.UserRoles.FindAsync(userId , roleId);
+    //         if (existingUserRole == null)
+    //         {
+    //             return null;
+    //         }
+    //         existingUserRole.RoleId = roleId;
+    //         await _context.SaveChangesAsync();
+    //     }
+    //     await _context.SaveChangesAsync();
+    //     return existingUser;
+    // }
 
     public async Task<User> DeleteUser(int id)
     {

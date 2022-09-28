@@ -66,10 +66,13 @@ public class ClassController : Controller
     [Authorize(Roles= "2,1" )]
     public async Task<IActionResult> CreateClass(ClassCreateRequestDTO request)
     {
+        var idClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var id = Int32.Parse(idClaim);
         var newClass = new Class()
         {
             Name = request.Name,
-            CreateAt = DateTime.Now
+            CreateAt = DateTime.Now,
+            // UserCreateId = id
         };
         var response = await _classRepository.CreateClass(newClass);
         var classDto = _mapper.Map<ClassDto>(response);
@@ -196,7 +199,7 @@ public class ClassController : Controller
             var isUserInClass =  await _classRepository.IsUserInClass(classId, Id);
             if (!isUserInClass)
             {
-                return BadRequest($"You cannot add another user to class with id {classId} because you not in class");
+                return BadRequest($"You cannot get list user to class with id {classId} because you not in class");
             }
         }
         var users = await _classRepository.GetAllUserInClass(classId);

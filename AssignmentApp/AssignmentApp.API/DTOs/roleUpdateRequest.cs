@@ -2,5 +2,5 @@
 
 public class roleUpdateRequest
 {
-    public int RoleId { get; set; }
+    public int NewRoleId { get; set; }
 }

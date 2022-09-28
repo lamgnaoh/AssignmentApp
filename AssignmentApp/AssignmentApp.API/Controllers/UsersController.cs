@@ -15,12 +15,14 @@ namespace AssignmentApp.API.Controllers;
 public class UsersController:Controller
 {
     private readonly IUserRepository _userRepository;
+    private readonly IUserRoleRepository _userRoleRepository;
     private readonly IMapper _mapper;
 
-    public UsersController(IUserRepository userRepository, IMapper mapper)
+    public UsersController(IUserRepository userRepository, IMapper mapper ,IUserRoleRepository userRoleRepository)
     {
         _userRepository = userRepository;
         _mapper = mapper;
+        _userRoleRepository = userRoleRepository;
     }
 
     [HttpGet]
@@ -28,6 +30,7 @@ public class UsersController:Controller
     public async Task<IActionResult> GetAll([FromQuery]UserPagingParameter pagingParameter)
     {
         var users = await _userRepository.GetAll(pagingParameter);
+        
         var usersDto = _mapper.Map<List<UserDto>>(users);
         return Ok(usersDto);
     }
@@ -84,15 +87,13 @@ public class UsersController:Controller
             Email = userUpdateRequestDto.Email,
             PhoneNumber = userUpdateRequestDto.PhoneNumber,
             FullName = userUpdateRequestDto.FullName,
-            MSSV = userUpdateRequestDto.MSSV,
+            MSSV = userUpdateRequestDto.MSSV
         };
-
-        updateUser = await _userRepository.UpdateUser(updateUser, id); 
+        updateUser = await _userRepository.UpdateUser(updateUser, id);
         if (updateUser == null)
         {
             return BadRequest();
         }
-
         var updateUserDto = _mapper.Map<UserDto>(updateUser);
         return Ok(updateUserDto);
     }
@@ -143,11 +144,11 @@ public class UsersController:Controller
         }
         updateUser = new User()
         {
-            Username = updateRequestDto.Username,
+            Username = updateUser.Username,
             Password = updateRequestDto.Password,
-            Email = updateRequestDto.Email,
-            PhoneNumber = updateRequestDto.PhoneNumber,
-            FullName = updateRequestDto.FullName,
+            Email = updateUser.Email,
+            PhoneNumber = updateUser.PhoneNumber,
+            FullName = updateUser.FullName,
             MSSV =updateUser.MSSV
         };
         updateUser = await _userRepository.UpdateUser(updateUser, id);
@@ -155,7 +156,7 @@ public class UsersController:Controller
         {
             return BadRequest("Cannot update user");
         }
-
+        
         var updateUserDto = _mapper.Map<UserDto>(updateUser);
         return Ok(updateUserDto);
     }

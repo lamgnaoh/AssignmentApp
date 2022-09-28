@@ -43,7 +43,7 @@ public static class ModelBuilderExtensions
         );
         modelBuilder.Entity<Class>().HasData(
             new Class() { ClassId = 1, Name = "project 20213" , CreateAt = DateTime.Parse("08/06/2022 23:30:00") },
-            new Class() { ClassId = 2, Name = "Lap trinh .NET Core" , CreateAt = DateTime.Parse("11/05/2022 15:30:00") }
+            new Class() { ClassId = 2, Name = "Lap trinh .NET Core" , CreateAt = DateTime.Parse("11/05/2022 15:30:00")}
         );
         modelBuilder.Entity<UserClass>().HasData(
             new UserClass() { UserId = 1, ClassId = 1 },

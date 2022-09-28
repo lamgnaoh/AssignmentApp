@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssignmentApp.Data.Migrations
 {
     [DbContext(typeof(AssignmentAppDbContext))]
-    [Migration("20220924101335_initial")]
-    partial class initial
+    [Migration("20220928073210_initial database")]
+    partial class initialdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -233,7 +233,7 @@ namespace AssignmentApp.Data.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("char(15)");
+                        .HasColumnType("varchar(15)");
 
                     b.Property<string>("Username")
                         .IsRequired()

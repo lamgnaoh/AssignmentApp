@@ -11,5 +11,6 @@ public class ClassConfiguration:IEntityTypeConfiguration<Class>
         builder.ToTable("Classes");
         builder.HasKey(x => x.ClassId);
         builder.Property(x => x.Name).IsUnicode(true).IsRequired(true).HasMaxLength(50);
+        // builder.HasOne(x => x.UserCreate).WithMany(x => x.Classes).HasForeignKey(x => x.UserCreateId);
     }
 }

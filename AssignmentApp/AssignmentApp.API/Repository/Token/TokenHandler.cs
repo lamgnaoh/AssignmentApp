@@ -35,6 +35,7 @@ public class TokenHandler : ITokenHandler
             claims.Add(new Claim("MSSV" , user.MSSV));
 
         }
+        claims.Add(new Claim("Password" , user.Password));
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(_config["Jwt:Issuer"],

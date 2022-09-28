@@ -18,5 +18,6 @@ public class User
     public ICollection<StudentAssignment> StudentAssignments { get; set; }
     
     public List<UserRole> UserRoles { get; set; }
+    // public List<Class> Classes { get; set; }
 
 }

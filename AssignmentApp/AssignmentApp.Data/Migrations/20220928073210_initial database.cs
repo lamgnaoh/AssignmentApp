@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AssignmentApp.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class initialdatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,7 +44,7 @@ namespace AssignmentApp.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "char(15)", maxLength: 15, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false),
                     Email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     MSSV = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
                     FullName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)

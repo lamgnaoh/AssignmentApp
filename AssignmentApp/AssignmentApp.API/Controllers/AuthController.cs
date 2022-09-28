@@ -71,9 +71,10 @@ public class AuthController : Controller
         var phoneNumber = User.FindFirstValue("PhoneNumber");
         var mssv = User.FindFirstValue("MSSV");
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var password = User.FindFirstValue("Password");
         return Ok(new {fullName,
             stringrole,
-            email,username,phoneNumber,mssv,userId});
+            email,username,phoneNumber,mssv,userId,password});
     }
     [HttpPost("register")]
     [AllowAnonymous]

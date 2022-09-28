@@ -67,12 +67,12 @@ public class AssignmentController : Controller
     }
     [HttpPost]
     [Authorize(Roles = "2")]
-    public async Task<IActionResult> CreateAssignment(AssignmentCreateDto assignmentCreateDto)
+    public async Task<IActionResult> CreateAssignment([FromQuery] int classId ,AssignmentCreateDto assignmentCreateDto)
     {
         // request dto to domain model
         var assignment = new Assignment()
         {
-            ClassId = assignmentCreateDto.ClassId,
+            ClassId = classId,
             CreateAt = assignmentCreateDto.CreateAt,
             DueTo = assignmentCreateDto.DueTo,
             Content = assignmentCreateDto.Content,

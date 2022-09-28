@@ -15,7 +15,7 @@ public interface IUserRepository
     Task<User> GetUserById(int id);
 
     Task<User> UpdateUser(User user , int userId);
-    Task<User> UpdateRole(int userId , int RoleId);
+    // Task<User> UpdateRole(int userId , List<int> roles);
 
     Task<User> DeleteUser(int id);
 

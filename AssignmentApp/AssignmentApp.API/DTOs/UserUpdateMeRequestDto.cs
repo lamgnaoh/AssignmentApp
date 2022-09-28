@@ -4,14 +4,14 @@ namespace AssignmentApp.API.DTOs;
 
 public class UserUpdateMeRequestDto
 {
-    [StringLength(30,ErrorMessage = "Must be between 3 and 30 characters " , MinimumLength = 3)]
-    public string Username { get; set; }
     
+    [Required]
+    [StringLength(255, ErrorMessage = "Must be between 8  characters", MinimumLength = 8)]
     public string Password { get; set; }
-    public string PhoneNumber { get; set; }
-  
-    [EmailAddress(ErrorMessage = "Invalid email address")]
-    public string Email { get; set; }
-
-    public string FullName { get; set; }
+    
+    [Required(ErrorMessage = "Confirm Password is required")]
+    [StringLength(255, ErrorMessage = "Must be between 8  characters", MinimumLength = 8)]
+    [DataType(DataType.Password)]
+    [Compare("Password")]
+    public string ConfirmPassword { get; set; }
 }

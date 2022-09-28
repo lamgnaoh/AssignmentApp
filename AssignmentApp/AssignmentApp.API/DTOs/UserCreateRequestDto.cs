@@ -9,7 +9,7 @@ public class UserCreateRequestDto
     [StringLength(30,ErrorMessage = "Must be between 3 and 30 characters " , MinimumLength = 3)]
     public string Username { get; set; }
     [Required(ErrorMessage = "Password is required")]
-    [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
+    [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 8)]
     [DataType(DataType.Password)]
     public string Password { get; set; }
     public string PhoneNumber { get; set; }
