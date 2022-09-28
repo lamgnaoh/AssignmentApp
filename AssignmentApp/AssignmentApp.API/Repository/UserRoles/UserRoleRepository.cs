@@ -34,7 +34,7 @@ public class UserRoleRepository:IUserRoleRepository
             UserId = existingUser.Id,
             RoleId = RoleId
         };
-        var existingUserRole = await _context.UserRoles.AddAsync(newUserRole);
+        await _context.UserRoles.AddAsync(newUserRole);
         await _context.SaveChangesAsync();
         return await _context.UserRoles.Where(x=> x.UserId == userId).ToListAsync();
     }
