@@ -144,7 +144,7 @@ public class AssignmentController : Controller
         //return ok response
         return Ok(assignmentDto);
     }
-    [HttpPost]
+    [HttpPut]
     [Route("{AssignmentId:int}/submit")]
     [Authorize(Roles = "3")]
     public async Task<IActionResult> SubmitAssignment(int AssignmentId)
