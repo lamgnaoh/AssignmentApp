@@ -20,5 +20,5 @@ public class UserCreateRequestDto
     public string FullName { get; set; }
     public string? MSSV { get; set; }
     [Required]
-    public List<int> RoleID { get; set; }
+    public List<int> RoleIDs { get; set; }
 }

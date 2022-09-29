@@ -1,15 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "ATgPXP5ZgG1XViYp7gcDvxxWVN0R0Lh7oRjdRor/LBtWVlj0fpckclnWwv9cQ9Y5z1eQbxDAFOd+4h36OAt+OA==",
+  "dgSpecHash": "QhVwjCLiygh7Tt00ZwIocXLUnHq3RTFCQJ9XeIgE7/H3j2baptr1w10+Klr2aAYGBQ/6X/P95e+OnOW6eHT8sg==",
   "success": true,
   "projectFilePath": "D:\\Workspace\\2021-3\\Đồ án thiết kế ktmt\\AssignmentApp\\AssignmentApp\\AssignmentApp.API\\AssignmentApp.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\azure.storage.blobs\\12.13.1\\azure.storage.blobs.12.13.1.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\azure.storage.common\\12.12.0\\azure.storage.common.12.12.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.9\\microsoft.aspnetcore.authentication.jwtbearer.6.0.9.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.8\\microsoft.aspnetcore.cryptography.internal.6.0.8.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.8\\microsoft.aspnetcore.cryptography.keyderivation.6.0.8.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\6.0.8\\microsoft.aspnetcore.identity.entityframeworkcore.6.0.8.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
@@ -57,6 +61,9 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.23.1\\system.identitymodel.tokens.jwt.6.23.1.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\system.io.hashing\\6.0.0\\system.io.hashing.6.0.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.runtime.caching\\4.7.0\\system.runtime.caching.4.7.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
@@ -69,6 +76,7 @@
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.text.encoding.codepages\\4.7.0\\system.text.encoding.codepages.4.7.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.text.encodings.web\\7.0.0-preview.7.22375.6\\system.text.encodings.web.7.0.0-preview.7.22375.6.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.text.json\\7.0.0-preview.7.22375.6\\system.text.json.7.0.0-preview.7.22375.6.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
   ],
   "logs": []

@@ -15,6 +15,6 @@ public class UserUpdateRequestDto
 
     public string FullName { get; set; }
     public string MSSV { get; set; }
-    public List<int> roles { get; set; }
+    public List<int> RoleIDs { get; set; }
 
 }

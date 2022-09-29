@@ -79,3 +79,9 @@ D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\Assi
 D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
 D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\Azure.Core.dll
+D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\Azure.Storage.Blobs.dll
+D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\Azure.Storage.Common.dll
+D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\System.IO.Hashing.dll
+D:\Workspace\2021-3\Đồ án thiết kế ktmt\AssignmentApp\AssignmentApp\AssignmentApp.API\bin\Debug\net6.0\System.Memory.Data.dll

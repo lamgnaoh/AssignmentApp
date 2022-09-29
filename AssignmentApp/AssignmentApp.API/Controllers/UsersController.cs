@@ -128,7 +128,7 @@ public class UsersController:Controller
             MSSV = request.MSSV,
             FullName = request.FullName
         };
-        var RoleIds = request.RoleID;
+        var RoleIds = request.RoleIDs;
         newUser = await _userRepository.CreateUser(newUser,RoleIds);
         var newUserDto = _mapper.Map<UserDto>(newUser);
         return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUserDto);
@@ -164,7 +164,7 @@ public class UsersController:Controller
         foreach (var userRole in userRoles)
 
         {
-            foreach (var role in userUpdateRequestDto.roles)
+            foreach (var role in userUpdateRequestDto.RoleIDs)
             {
 
                 await _userRoleRepository.DeleteUserRole(updateUser.Id, userRole.RoleId);
