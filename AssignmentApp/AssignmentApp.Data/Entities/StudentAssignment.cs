@@ -8,11 +8,9 @@ public class StudentAssignment
     public double? Grade { get; set; }
     public DateTime? SubmittedAt { get; set; }
     public string Feedback { get; set; }
-    
-    // public string SubmitFile { get; set; }
-    
     // navigation property
     public Assignment Assignment { get; set; }
     public User User { get; set; }
+    public List<File> SubmitFiles { get; set; }
     // public User Student { get; set; }
 }

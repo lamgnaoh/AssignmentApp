@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Classes;
+using AssignmentApp.API.Repository.StudentAssignment;
 using AssignmentApp.Data.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ public class ClassController : Controller
     private readonly IClassRepository _classRepository;
     private readonly IMapper _mapper;
 
-    public ClassController(IClassRepository classRepository , IMapper mapper)
+    public ClassController(IClassRepository classRepository , IMapper mapper )
     {
         _classRepository = classRepository;
         _mapper = mapper;

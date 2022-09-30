@@ -152,7 +152,7 @@ public class AssignmentController : Controller
         var idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         var id = Int32.Parse(idClaim);
         
-        // var studentAssignment = await _assignmentRepository.SubmitAssignment(AssignmentId , id,  );
+        // var studentAssignment = await _assignmentRepository.SubmitAssignment(AssignmentId , id ,filePath );
         // if (studentAssignment == null)
         // {
         //     return BadRequest($"No assignment with id :{AssignmentId} was found");

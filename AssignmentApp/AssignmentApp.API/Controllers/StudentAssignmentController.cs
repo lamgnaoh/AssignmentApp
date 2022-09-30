@@ -74,14 +74,17 @@ public class StudentAssignmentController : Controller
     [Authorize(Roles = "2")]
     public async Task<IActionResult> GetAllStudentAssignmentForAssignment(int AssignmentId)
     {
+        //get assignment
         var assignment = await _assignmentRepository.GetAssignment(AssignmentId);
         var IdClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        //get teacher id 
         var Id = Int32.Parse(IdClaim);
         var isUserInClass =  await _classRepository.IsUserInClass(assignment.ClassId, Id);
         if (!isUserInClass)
         {
             return BadRequest($"You cannot get student assignment to assignment  id {AssignmentId} because you not in class");
         }
+        //lấy tất cả student assignment của assignment có id AssignmentId
         var studentAssignments = await _studentAssignmentRepository.GetAllStudentAssignmentForAssignment(AssignmentId);
         List<StudentAssignmentDto> studentAssignmentDtos = new List<StudentAssignmentDto>();
         foreach (var studentAssignment in studentAssignments)

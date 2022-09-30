@@ -104,6 +104,27 @@ public class ClassRepository : IClassRepository
             return null;
         }
         var userClass = new UserClass() { ClassId = classId, UserId = userId };
+        // kiem tra neu user la student
+        var userRole = await _context.UserRoles.FirstOrDefaultAsync(x => x.UserId == userId);
+        if (userRole.RoleId == 3)
+        {
+            // add student assignment vao trong bang student assignment
+            var assignments = await _context.Assignments.Where(x=> x.ClassId == classId).ToListAsync();
+            foreach (var assignment in assignments)
+            {
+                var studentAssignment = new Data.Entities.StudentAssignment()
+                {
+                    AssignmentId = assignment.AssignmentId,
+                    Feedback = null,
+                    Grade = null,
+                    StudentId = userId,
+                    SubmittedAt = null,
+                    Submitted = false
+                };
+                await _context.StudentAssignments.AddAsync(studentAssignment);
+                await _context.SaveChangesAsync();
+            }
+        }
         await _context.UserClasses.AddAsync(userClass);
         await _context.SaveChangesAsync();
         return userClass;
