@@ -41,11 +41,11 @@ public class StudentAssignmentRepository : IStudentAssignmentRepository
             return null;
         }
         
-        if (studentAssignment.Submitted == false)
-        {
-            return null;
-            
-        }
+        // if (studentAssignment.Submitted == false)
+        // {
+        //     return null;
+        //     
+        // }
 
         studentAssignment.Grade = markedStudentAssignment.Grade;
         studentAssignment.Feedback = markedStudentAssignment.Feedback;

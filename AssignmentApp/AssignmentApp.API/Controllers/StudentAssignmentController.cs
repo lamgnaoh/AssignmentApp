@@ -37,8 +37,36 @@ public class StudentAssignmentController : Controller
         var idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         var id = Int32.Parse(idClaim);
         var studentAssignments = await _studentAssignmentRepository.GetAllAssignedAssignment(id);
-        var studentAssignmentsDto = _mapper.Map<List<StudentAssignmentDto>>(studentAssignments);
-        return Ok(studentAssignmentsDto);
+        List<StudentAssignmentDto> studentAssignmentDtos = new List<StudentAssignmentDto>();
+        foreach (var studentAssignment in studentAssignments)
+        {
+            var student = await _userRepository.GetUserById(studentAssignment.StudentId);
+            var studentDto = new UserDto()
+            {
+                Id = student.Id,
+                Username = student.Username,
+                Password = student.Password,
+                PhoneNumber = student.PhoneNumber,
+                Email = student.Email,
+                MSSV = student.MSSV,
+                FullName = student.FullName,
+                roles = new List<string>(){"student"}
+            };
+            
+            var studentAssigmentDto = new StudentAssignmentDto()
+            {
+                AssignmentId = studentAssignment.AssignmentId,
+                Feedback = studentAssignment.Feedback,
+                Grade = studentAssignment.Grade,
+                Student = studentDto,
+                Submitted = studentAssignment.Submitted,
+                SubmittedAt = studentAssignment.SubmittedAt,
+                // SubmitFile = studentAssignment.SubmitFile
+            };
+            studentAssignmentDtos.Add(studentAssigmentDto);
+            
+        }
+        return Ok(studentAssignmentDtos);
     }
 
     [HttpGet]
@@ -87,13 +115,15 @@ public class StudentAssignmentController : Controller
         return Ok(studentAssignmentDtos);
     }
 
-    [HttpPost]
+    [HttpPut]
     [Route("Assignments/{AssignmentId:int}/Student/{studentId:int}")]
     [Authorize(Roles = "2")]
     public async Task<IActionResult> GradeStudentAssignment(int AssignmentId, int studentId,
         AssignmentMarkCreateDto markCreateDto)
     {
+        //lấy assignment
         var assignment = await _assignmentRepository.GetAssignment(AssignmentId);
+        // kiem tra xem teacher có trong class để chấm assignment student nộp không
         var IdClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         var Id = Int32.Parse(IdClaim);
         var isUserInClass =  await _classRepository.IsUserInClass(assignment.ClassId, Id);
@@ -101,6 +131,7 @@ public class StudentAssignmentController : Controller
         {
             return BadRequest($"You cannot grade student assignment to assignment id {AssignmentId} because you not in class");
         }
+        // lấy assignment student nộp
         var studentAssignment = await _studentAssignmentRepository.GetStudentAssignment(AssignmentId, studentId);
         if (studentAssignment == null)
         {
@@ -121,7 +152,31 @@ public class StudentAssignmentController : Controller
         {
             return BadRequest($"student with id {studentId}  does not submit assignment with id {AssignmentId} or dont have assignment id {AssignmentId} assign to student {studentId}");
         }
-        var studentAssignmentDto = _mapper.Map<StudentAssignmentDto>(response);
-        return Ok(studentAssignmentDto);
+            var student = await _userRepository.GetUserById(studentAssignment.StudentId);
+            var studentDto = new UserDto()
+            {
+                Id = student.Id,
+                Username = student.Username,
+                Password = student.Password,
+                PhoneNumber = student.PhoneNumber,
+                Email = student.Email,
+                MSSV = student.MSSV,
+                FullName = student.FullName,
+                roles = new List<string>(){"student"}
+            };
+            
+            var studentAssigmentDto = new StudentAssignmentDto()
+            {
+                AssignmentId = AssignmentId,
+                Feedback = studentAssignment.Feedback,
+                Grade = studentAssignment.Grade,
+                Student = studentDto,
+                Submitted = studentAssignment.Submitted,
+                SubmittedAt = studentAssignment.SubmittedAt,
+                // SubmitFile = studentAssignment.SubmitFile
+            };
+            
+        
+        return Ok(studentAssigmentDto);
     }
 }
