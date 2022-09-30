@@ -193,15 +193,18 @@ public class ClassController : Controller
         var IdClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         var roleClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
         var roleId = Int32.Parse(roleClaim);
+        //neu ng dang nhap k la admin
         if (roleId != 1)
         {
+            //id nguoi dang nhap
             var Id = Int32.Parse(IdClaim);
             var isUserInClass =  await _classRepository.IsUserInClass(classId, Id);
             if (!isUserInClass)
             {
-                return BadRequest($"You cannot get list user to class with id {classId} because you not in class");
+                return Ok(new EmptyResult());
             }
         }
+        //neu ng dang nhap la admin
         var users = await _classRepository.GetAllUserInClass(classId);
         var usersDto = _mapper.Map<List<UserDto>>(users);
         return Ok(usersDto);
