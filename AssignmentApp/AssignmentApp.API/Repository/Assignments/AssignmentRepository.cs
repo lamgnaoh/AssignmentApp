@@ -110,7 +110,7 @@ public class AssignmentRepository : IAssignmentRepository
 
         return assignment;
     }
-    public async Task<Data.Entities.StudentAssignment> SubmitAssignment(int AssignmentId , int studentId)
+    public async Task<Data.Entities.StudentAssignment> SubmitAssignment(int AssignmentId , int studentId,string filePath)
     {
         var studentAssignment =
             await _context.StudentAssignments.FindAsync(AssignmentId,studentId);
@@ -121,6 +121,7 @@ public class AssignmentRepository : IAssignmentRepository
         //chinh sua student assignment 
         studentAssignment.Submitted = true;
         studentAssignment.SubmittedAt = DateTime.Now;
+        // studentAssignment.SubmitFile = filePath;
         await _context.SaveChangesAsync();
         return studentAssignment;
     }

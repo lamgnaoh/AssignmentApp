@@ -3,6 +3,7 @@ using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.API.Repository.Classes;
 using AssignmentApp.API.Repository.StudentAssignment;
+using AssignmentApp.API.Repository.Users;
 using AssignmentApp.Data.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -17,13 +18,15 @@ public class StudentAssignmentController : Controller
     private readonly IStudentAssignmentRepository _studentAssignmentRepository;
     private readonly IAssignmentRepository _assignmentRepository;
     private readonly IClassRepository _classRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
 
-    public StudentAssignmentController(IStudentAssignmentRepository studentAssignmentRepository , IMapper mapper,IClassRepository classRepository, IAssignmentRepository assignmentRepository)
+    public StudentAssignmentController(IStudentAssignmentRepository studentAssignmentRepository , IMapper mapper,IClassRepository classRepository, IAssignmentRepository assignmentRepository, IUserRepository userRepository)
     {
         _studentAssignmentRepository = studentAssignmentRepository;
         _classRepository = classRepository;
         _assignmentRepository = assignmentRepository;
+        _userRepository = userRepository;
         _mapper = mapper;
     }
 
@@ -51,9 +54,37 @@ public class StudentAssignmentController : Controller
         {
             return BadRequest($"You cannot get student assignment to assignment  id {AssignmentId} because you not in class");
         }
-        var studentAssignment = await _studentAssignmentRepository.GetAllStudentAssignmentForAssignment(AssignmentId);
-        var studentAssignmentDto = _mapper.Map<List<StudentAssignmentDto>>(studentAssignment);
-        return Ok(studentAssignmentDto);
+        var studentAssignments = await _studentAssignmentRepository.GetAllStudentAssignmentForAssignment(AssignmentId);
+        List<StudentAssignmentDto> studentAssignmentDtos = new List<StudentAssignmentDto>();
+        foreach (var studentAssignment in studentAssignments)
+        {
+            var student = await _userRepository.GetUserById(studentAssignment.StudentId);
+            var studentDto = new UserDto()
+            {
+                Id = student.Id,
+                Username = student.Username,
+                Password = student.Password,
+                PhoneNumber = student.PhoneNumber,
+                Email = student.Email,
+                MSSV = student.MSSV,
+                FullName = student.FullName,
+                roles = new List<string>(){"student"}
+            };
+            
+            var studentAssigmentDto = new StudentAssignmentDto()
+            {
+                AssignmentId = AssignmentId,
+                Feedback = studentAssignment.Feedback,
+                Grade = studentAssignment.Grade,
+                Student = studentDto,
+                Submitted = studentAssignment.Submitted,
+                SubmittedAt = studentAssignment.SubmittedAt,
+                // SubmitFile = studentAssignment.SubmitFile
+            };
+            studentAssignmentDtos.Add(studentAssigmentDto);
+            
+        }
+        return Ok(studentAssignmentDtos);
     }
 
     [HttpPost]

@@ -9,6 +9,8 @@ public class StudentAssignment
     public DateTime? SubmittedAt { get; set; }
     public string Feedback { get; set; }
     
+    // public string SubmitFile { get; set; }
+    
     // navigation property
     public Assignment Assignment { get; set; }
     public User User { get; set; }

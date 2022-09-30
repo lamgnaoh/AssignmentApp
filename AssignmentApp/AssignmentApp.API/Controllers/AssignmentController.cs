@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.Data.Entities;
@@ -15,7 +16,6 @@ public class AssignmentController : Controller
 {
     private readonly IAssignmentRepository _assignmentRepository;
     private readonly IMapper _mapper;
-
     public AssignmentController(IAssignmentRepository assignmentRepository , IMapper mapper)
     {
         _assignmentRepository = assignmentRepository;
@@ -151,12 +151,13 @@ public class AssignmentController : Controller
     {
         var idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         var id = Int32.Parse(idClaim);
-        var studentAssignment = await _assignmentRepository.SubmitAssignment(AssignmentId , id);
-        if (studentAssignment == null)
-        {
-            return BadRequest($"No assignment with id :{AssignmentId} was found");
-        }
-        return Ok(studentAssignment);
+        
+        // var studentAssignment = await _assignmentRepository.SubmitAssignment(AssignmentId , id,  );
+        // if (studentAssignment == null)
+        // {
+        //     return BadRequest($"No assignment with id :{AssignmentId} was found");
+        // }
+        return Ok("test");
     }
 
 }
