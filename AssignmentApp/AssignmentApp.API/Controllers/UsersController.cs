@@ -26,8 +26,34 @@ public class UsersController:Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "2")]
+    [Route("students")]
+    public async Task<IActionResult> GetAllStudent([FromQuery]UserPagingParameter pagingParameter)
+    {
+        var students = await _userRepository.GetAllStudent(pagingParameter);
+        var studentsDtos = new List<UserDto>();
+        foreach (var student in students)
+        {
+            
+                var studentDto = new UserDto()
+                {
+                    Id = student.Id,
+                    Username = student.Username,
+                    Password = student.Password,
+                    PhoneNumber = student.PhoneNumber,
+                    Email = student.Email,
+                    MSSV = student.MSSV,
+                    FullName = student.FullName,
+                    roles = new List<string>(){"student"}
+                };
+                studentsDtos.Add(studentDto);
+        }
+        return Ok(studentsDtos);
+    }
+
+    [HttpGet]
     [Authorize(Roles = "1")]
-    public async Task<IActionResult> GetAll([FromQuery]UserPagingParameter pagingParameter)
+    public async Task<IActionResult> GetAll([FromQuery] UserPagingParameter pagingParameter)
     {
         var users = await _userRepository.GetAll(pagingParameter);
         var usersDtos = new List<UserDto>();
@@ -41,10 +67,12 @@ public class UsersController:Controller
                 {
                     roles.Add("admin");
                 }
+
                 if (userRole.RoleId == 2)
                 {
                     roles.Add("teacher");
                 }
+
                 if (userRole.RoleId == 3)
                 {
                     roles.Add("student");
@@ -64,6 +92,7 @@ public class UsersController:Controller
                 usersDtos.Add(userDto);
             }
         }
+
         return Ok(usersDtos);
     }
 

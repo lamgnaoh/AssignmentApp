@@ -5,11 +5,11 @@ namespace AssignmentApp.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class FileUploadController : ControllerBase
+public class FileController : ControllerBase
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public FileUploadController(IWebHostEnvironment webHostEnvironment)
+    public FileController(IWebHostEnvironment webHostEnvironment)
     {
         _webHostEnvironment = webHostEnvironment;
     }

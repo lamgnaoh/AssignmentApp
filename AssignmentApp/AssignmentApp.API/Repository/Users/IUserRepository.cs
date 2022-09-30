@@ -10,6 +10,7 @@ public interface IUserRepository
     Task<bool> Register(RegisterRequest request);
 
     Task<List<User>> GetAll(UserPagingParameter pagingParameter);
+    Task<List<User>> GetAllStudent(UserPagingParameter pagingParameter);
     Task<User> CreateUser(User createUser, List<int> RoleIDs);
 
     Task<User> GetUserById(int id);

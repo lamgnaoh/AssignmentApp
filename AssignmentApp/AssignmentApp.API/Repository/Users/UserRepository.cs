@@ -7,6 +7,7 @@ using AssignmentApp.API.Utilities.Exception;
 using AssignmentApp.API.Utilities.Paging;
 using AssignmentApp.Data.EF;
 using AssignmentApp.Data.Entities;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -78,6 +79,23 @@ public class UserRepository : IUserRepository
             .Skip((pagingParameter.PageNumber - 1) * pagingParameter.PageSize).Take(pagingParameter.PageSize)
             .ToListAsync();
         return users;
+    }
+
+    public async Task<List<User>> GetAllStudent(UserPagingParameter pagingParameter)
+    {
+        var studentids = from u in _context.Users
+            join ur in _context.UserRoles on u.Id equals ur.UserId
+            where ur.RoleId == 3
+            select u.Id;
+        List<User> students = new List<User>();
+        foreach (var studentid in studentids)
+        {
+            var student = await _context.Users.FindAsync(studentid);
+            students.Add(student);
+        }
+
+        var listStudents = students.Skip((pagingParameter.PageNumber - 1) * pagingParameter.PageSize).Take(pagingParameter.PageSize).ToList();
+        return listStudents;
     }
 
     public async Task<User> CreateUser(User createUser, List<int> RoleIDs)
