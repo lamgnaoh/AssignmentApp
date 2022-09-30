@@ -20,4 +20,9 @@
       <ProjectReference Include="..\AssignmentApp.Data\AssignmentApp.Data.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Static" />
+      <Folder Include="Static\UploadFiles" />
+    </ItemGroup>
+
 </Project>
