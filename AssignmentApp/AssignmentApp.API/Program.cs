@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.API.Repository.Classes;
+using AssignmentApp.API.Repository.Files;
 using AssignmentApp.API.Repository.StudentAssignment;
 using AssignmentApp.API.Repository.Token;
 using AssignmentApp.API.Repository.UserRoles;
@@ -72,6 +73,8 @@ builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IStudentAssignmentRepository, StudentAssignmentRepository>();
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
+
 // builder.Services.AddTransient<UserManager<User>, UserManager<User>>();
 // builder.Services.AddTransient<SignInManager<User>, SignInManager<User>>();
 // builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();

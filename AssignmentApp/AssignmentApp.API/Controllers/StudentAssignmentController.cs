@@ -2,6 +2,7 @@
 using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Assignments;
 using AssignmentApp.API.Repository.Classes;
+using AssignmentApp.API.Repository.Files;
 using AssignmentApp.API.Repository.StudentAssignment;
 using AssignmentApp.API.Repository.Users;
 using AssignmentApp.Data.Entities;
@@ -19,14 +20,17 @@ public class StudentAssignmentController : Controller
     private readonly IAssignmentRepository _assignmentRepository;
     private readonly IClassRepository _classRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IFileRepository _fileRepository;
+
     private readonly IMapper _mapper;
 
-    public StudentAssignmentController(IStudentAssignmentRepository studentAssignmentRepository , IMapper mapper,IClassRepository classRepository, IAssignmentRepository assignmentRepository, IUserRepository userRepository)
+    public StudentAssignmentController(IStudentAssignmentRepository studentAssignmentRepository , IMapper mapper,IClassRepository classRepository, IAssignmentRepository assignmentRepository, IUserRepository userRepository, IFileRepository fileRepository)
     {
         _studentAssignmentRepository = studentAssignmentRepository;
         _classRepository = classRepository;
         _assignmentRepository = assignmentRepository;
         _userRepository = userRepository;
+        _fileRepository = fileRepository;
         _mapper = mapper;
     }
 
@@ -37,6 +41,7 @@ public class StudentAssignmentController : Controller
         var idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         var id = Int32.Parse(idClaim);
         var studentAssignments = await _studentAssignmentRepository.GetAllAssignedAssignment(id);
+        
         List<StudentAssignmentDto> studentAssignmentDtos = new List<StudentAssignmentDto>();
         foreach (var studentAssignment in studentAssignments)
         {
@@ -61,7 +66,7 @@ public class StudentAssignmentController : Controller
                 Student = studentDto,
                 Submitted = studentAssignment.Submitted,
                 SubmittedAt = studentAssignment.SubmittedAt,
-                // SubmitFile = studentAssignment.SubmitFile
+                // SubmitFiles = 
             };
             studentAssignmentDtos.Add(studentAssigmentDto);
             
@@ -89,6 +94,18 @@ public class StudentAssignmentController : Controller
         List<StudentAssignmentDto> studentAssignmentDtos = new List<StudentAssignmentDto>();
         foreach (var studentAssignment in studentAssignments)
         {
+            var files = await _fileRepository.GetFileFromStudentAssignment(AssignmentId, studentAssignment.StudentId);
+            List<FileDto> fileDtos = new List<FileDto>();
+            foreach (var item in files)
+            {
+                var fileDto = new FileDto()
+                {
+                    FileId = item.FileId,
+                    Name = item.Name,
+                    Path = item.Path
+                };
+                fileDtos.Add(fileDto);
+            }
             var student = await _userRepository.GetUserById(studentAssignment.StudentId);
             var studentDto = new UserDto()
             {
@@ -110,7 +127,7 @@ public class StudentAssignmentController : Controller
                 Student = studentDto,
                 Submitted = studentAssignment.Submitted,
                 SubmittedAt = studentAssignment.SubmittedAt,
-                // SubmitFile = studentAssignment.SubmitFile
+                SubmitFiles = fileDtos
             };
             studentAssignmentDtos.Add(studentAssigmentDto);
             
@@ -150,34 +167,48 @@ public class StudentAssignmentController : Controller
             Grade = markCreateDto.Grade,
             Feedback = markCreateDto.Feedback
         };
+        
         var response = await _studentAssignmentRepository.GradeAssignment(studentAssignment, AssignmentId, studentId);
         if (response == null)
         {
             return BadRequest($"student with id {studentId}  does not submit assignment with id {AssignmentId} or dont have assignment id {AssignmentId} assign to student {studentId}");
         }
-            var student = await _userRepository.GetUserById(studentAssignment.StudentId);
-            var studentDto = new UserDto()
+        //get file from student assignment
+        var files = await  _fileRepository.GetFileFromStudentAssignment(AssignmentId, studentId);
+        List<FileDto> fileDtos = new List<FileDto>();
+        foreach (var item in files)
+        {
+            var fileDto = new FileDto()
             {
-                Id = student.Id,
-                Username = student.Username,
-                Password = student.Password,
-                PhoneNumber = student.PhoneNumber,
-                Email = student.Email,
-                MSSV = student.MSSV,
-                FullName = student.FullName,
-                roles = new List<string>(){"student"}
+                FileId = item.FileId,
+                Name = item.Name,
+                Path = item.Path
             };
-            
-            var studentAssigmentDto = new StudentAssignmentDto()
-            {
-                AssignmentId = AssignmentId,
-                Feedback = studentAssignment.Feedback,
-                Grade = studentAssignment.Grade,
-                Student = studentDto,
-                Submitted = studentAssignment.Submitted,
-                SubmittedAt = studentAssignment.SubmittedAt,
-                // SubmitFile = studentAssignment.SubmitFile
-            };
+            fileDtos.Add(fileDto);
+        }
+        var student = await _userRepository.GetUserById(studentAssignment.StudentId);
+        var studentDto = new UserDto()
+        {
+            Id = student.Id,
+            Username = student.Username,
+            Password = student.Password,
+            PhoneNumber = student.PhoneNumber,
+            Email = student.Email,
+            MSSV = student.MSSV,
+            FullName = student.FullName,
+            roles = new List<string>(){"student"}
+        };
+        
+        var studentAssigmentDto = new StudentAssignmentDto()
+        {
+            AssignmentId = AssignmentId,
+            Feedback = studentAssignment.Feedback,
+            Grade = studentAssignment.Grade,
+            Student = studentDto,
+            Submitted = studentAssignment.Submitted,
+            SubmittedAt = studentAssignment.SubmittedAt,
+            SubmitFiles = fileDtos
+        };
             
         
         return Ok(studentAssigmentDto);
