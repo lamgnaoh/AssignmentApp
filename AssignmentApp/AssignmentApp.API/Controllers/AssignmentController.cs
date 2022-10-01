@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using AssignmentApp.API.DTOs;
 using AssignmentApp.API.Repository.Assignments;
+using AssignmentApp.API.Repository.Users;
 using AssignmentApp.Data.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,17 @@ namespace AssignmentApp.API.Controllers;
 public class AssignmentController : Controller
 {
     private readonly IAssignmentRepository _assignmentRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+
     private readonly IMapper _mapper;
-    public AssignmentController(IAssignmentRepository assignmentRepository , IMapper mapper)
+    public AssignmentController(IAssignmentRepository assignmentRepository , IMapper mapper, IUserRepository userRepository, IWebHostEnvironment webHostEnvironment)
     {
         _assignmentRepository = assignmentRepository;
         _mapper = mapper;
+        _userRepository = userRepository;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -147,17 +154,66 @@ public class AssignmentController : Controller
     [HttpPut]
     [Route("{AssignmentId:int}/submit")]
     [Authorize(Roles = "3")]
-    public async Task<IActionResult> SubmitAssignment(int AssignmentId)
+    public async Task<IActionResult> SubmitAssignment(int AssignmentId , List<IFormFile> files)
     {
+        if (files.Count == 0)
+        {
+            return BadRequest();
+        }
+
+        string directoryPath =Path.Combine( _webHostEnvironment.ContentRootPath,"Static/UploadFiles");
+        foreach (var file in files)
+        {
+            string filepath = Path.Combine(directoryPath, file.FileName);
+            using (var stream = new FileStream(filepath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+            
+        }
         var idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         var id = Int32.Parse(idClaim);
-        
-        // var studentAssignment = await _assignmentRepository.SubmitAssignment(AssignmentId , id ,filePath );
-        // if (studentAssignment == null)
-        // {
-        //     return BadRequest($"No assignment with id :{AssignmentId} was found");
-        // }
-        return Ok("test");
+
+        var student = await _userRepository.GetUserById(id);
+        var studentDto = new UserDto(){
+            Id = student.Id,
+            Username = student.Username,
+            Password = student.Password,
+            PhoneNumber = student.PhoneNumber,
+            Email = student.Email,
+            MSSV = student.MSSV,
+            FullName = student.FullName,
+            roles = new List<string>(){"student"}
+        };
+        var studentAssignment = await _assignmentRepository.SubmitAssignment(AssignmentId , id ,files );
+        if (studentAssignment == null)
+        {
+            return BadRequest($"No assignment with id :{AssignmentId} was found");
+        }
+
+        List<FileDto> fileDtos = new List<FileDto>();
+        foreach (var file in studentAssignment.SubmitFiles)
+        {
+            var fileDto = new FileDto()
+            {
+                FileId = file.FileId,
+                Name = file.Name,
+                Path = file.Path
+            };
+            fileDtos.Add(fileDto);
+        }
+
+        var studentAssigmentDto = new StudentAssignmentDto()
+        {
+            AssignmentId = AssignmentId,
+            Feedback = studentAssignment.Feedback,
+            Grade = studentAssignment.Grade,
+            Student = studentDto,
+            SubmitFiles = fileDtos,
+            Submitted = true,
+            SubmittedAt = DateTime.Now
+        };
+        return Ok(studentAssigmentDto);
     }
 
 }

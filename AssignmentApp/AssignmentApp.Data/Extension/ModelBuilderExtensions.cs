@@ -1,5 +1,6 @@
 ﻿using AssignmentApp.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using File = AssignmentApp.Data.Entities.File;
 
 namespace AssignmentApp.Data.Extension;
 
@@ -81,6 +82,5 @@ public static class ModelBuilderExtensions
                 AssignmentId = 2, StudentId = 1, Submitted = true,SubmittedAt = DateTime.Parse("07/09/2022 23:30:00")
             }
         );
-
     }
 }

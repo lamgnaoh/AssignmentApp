@@ -110,7 +110,7 @@ public class AssignmentRepository : IAssignmentRepository
 
         return assignment;
     }
-    public async Task<Data.Entities.StudentAssignment> SubmitAssignment(int AssignmentId , int studentId,List<string> filePaths)
+    public async Task<Data.Entities.StudentAssignment> SubmitAssignment(int AssignmentId , int studentId,List<IFormFile> files)
     {
         var studentAssignment =
             await _context.StudentAssignments.FindAsync(AssignmentId,studentId);
@@ -118,10 +118,21 @@ public class AssignmentRepository : IAssignmentRepository
         {
             return null;
         }
+        foreach (var item in files)
+        {
+            var file = new Data.Entities.File()
+            {
+                Name = item.FileName.Trim(),
+                Path =   "AssignmentApp.API/Static/UploadFiles/"+ Path.GetFileName(item.FileName.Trim()),
+                StudentAssignment = studentAssignment
+            };
+            await _context.Files.AddAsync(file);
+            await _context.SaveChangesAsync();
+
+        }
         //chinh sua student assignment 
         studentAssignment.Submitted = true;
         studentAssignment.SubmittedAt = DateTime.Now;
-        // studentAssignment.SubmitFile = filePaths;
         await _context.SaveChangesAsync();
         return studentAssignment;
     }

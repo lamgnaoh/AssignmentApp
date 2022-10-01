@@ -109,25 +109,12 @@ public class UsersController:Controller
         }
 
         var userRoles = await _userRoleRepository.GetALlRoleForUser(user.Id);
-        List<string> roles = new List<string>();
+        List<int> roleIds = new List<int>();
         foreach (var userRole in userRoles)
         {
-            if (userRole.RoleId == 1)
-            {
-                roles.Add("admin");
-            }
-
-            if (userRole.RoleId == 2)
-            {
-                roles.Add("teacher");
-            }
-
-            if (userRole.RoleId == 3)
-            {
-                roles.Add("student");
-            }
+            roleIds.Add(userRole.RoleId);
         }
-        var userDto = new UserDto()
+        var userGetRequestDto = new UserGetRequestDto()
         {
             Id = user.Id,
             Username = user.Username,
@@ -136,9 +123,9 @@ public class UsersController:Controller
             Email = user.Email,
             MSSV = user.MSSV,
             FullName = user.FullName,
-            roles = roles
+            RoleIds = roleIds
         };
-        return Ok(userDto);
+        return Ok(userGetRequestDto);
     }
 
     [HttpPost]

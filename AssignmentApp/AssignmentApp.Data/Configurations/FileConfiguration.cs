@@ -15,6 +15,6 @@ public class FileConfiguration:IEntityTypeConfiguration<Data.Entities.File>
             builder.HasKey(x=> x.FileId);
             builder.Property(x => x.Name).HasColumnType("varchar").HasMaxLength(80);
             builder.Property(x => x.Path).HasColumnType("nvarchar").HasMaxLength(200);
-            builder.HasOne(x => x.StudentAssignment).WithMany(x => x.SubmitFiles).HasForeignKey(x => x.StudentAssigmentId);
+            builder.HasOne(x=>x.StudentAssignment).WithMany(x=>x.SubmitFiles);
     }
 }

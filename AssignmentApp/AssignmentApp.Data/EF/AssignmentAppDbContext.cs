@@ -1,10 +1,12 @@
-﻿using AssignmentApp.Data.Configurations;
+﻿using System.Net;
+using AssignmentApp.Data.Configurations;
 using AssignmentApp.Data.Entities;
 using AssignmentApp.Data.Extension;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using File = System.IO.File;
 
 namespace AssignmentApp.Data.EF;
 
@@ -33,6 +35,7 @@ public class AssignmentAppDbContext :DbContext
         modelBuilder.ApplyConfiguration(new UserClassConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+        modelBuilder.ApplyConfiguration(new FileConfiguration());
         // modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("AppUserClaims");
         // modelBuilder.Entity<IdentityUserRole<int>>().ToTable("AppUserRoles");
         // modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("AppUserLogins");
@@ -52,5 +55,6 @@ public class AssignmentAppDbContext :DbContext
     public DbSet<UserClass> UserClasses { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
     
+    public DbSet<Entities.File> Files { get; set; }
 
 }
